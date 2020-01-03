@@ -9,25 +9,20 @@ namespace SO_simulation_csharp
 {
     class Process
     {
-        public TimeSpan CpuBurstTime { get => CpuBurstTime; set => CpuBurstTime = value; }
-        public DateTime ArrivalTime { get => ArrivalTime; set => ArrivalTime = value; }
-        public DateTime CompletionTime { get => CompletionTime; set => CompletionTime = value; }
-        public TimeSpan TurnAroundTime { get => TurnAroundTime; set => TurnAroundTime = value; }
-        public TimeSpan WaitingTime { get => WaitingTime; set => WaitingTime = value; }
+        public int CpuBurstTime { get => CpuBurstTime; set => CpuBurstTime = value; }
+        public int TurnAroundTime { get => TurnAroundTime; set => TurnAroundTime = value; }
+        public int WaitingTime { get => WaitingTime; set => WaitingTime = value; }
 
-        
-        public Process(TimeSpan cpuBurstTime, DateTime arrivalTime, DateTime completionTime, TimeSpan turnAroundTime, TimeSpan waitingTime)
+        public Process(int cpuBurstTime, int waitingTime = 0)
         {
             CpuBurstTime = cpuBurstTime;
-            ArrivalTime = arrivalTime;
-            CompletionTime = completionTime;
-            TurnAroundTime = turnAroundTime;
+            TurnAroundTime = waitingTime;
             WaitingTime = waitingTime;
-            Stopwatch sw = new Stopwatch();
-            
         }
 
-
+        
+        
+        
         /*
          using System.Diagnostics;
         // ...
