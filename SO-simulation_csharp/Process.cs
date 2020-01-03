@@ -7,11 +7,17 @@ using System.Diagnostics;
 
 namespace SO_simulation_csharp
 {
-    class Process
+    public class Process
     {
-        public int CpuBurstTime { get => CpuBurstTime; set => CpuBurstTime = value; }
-        public int TurnAroundTime { get => TurnAroundTime; set => TurnAroundTime = value; }
-        public int WaitingTime { get => WaitingTime; set => WaitingTime = value; }
+        int cpuBurstTime;
+        int turnAroundTime;
+        int waitingTime;
+
+       
+
+        public Process()
+        {
+        }
 
         public Process(int cpuBurstTime, int waitingTime = 0)
         {
@@ -20,9 +26,21 @@ namespace SO_simulation_csharp
             WaitingTime = waitingTime;
         }
 
-        
-        
-        
+        public int CpuBurstTime { get => cpuBurstTime; set => cpuBurstTime = value; }
+        public int TurnAroundTime { get => turnAroundTime; set => turnAroundTime = value; }
+        public int WaitingTime { get => waitingTime; set => waitingTime = value; }
+
+        //public int CpuBurstTime { get => CpuBurstTime; set => CpuBurstTime = value; }
+        //public int TurnAroundTime { get => TurnAroundTime; set => TurnAroundTime = value; }
+        //public int WaitingTime { get => WaitingTime; set => WaitingTime = value; }
+
+
+
+
+
+
+
+
         /*
          using System.Diagnostics;
         // ...

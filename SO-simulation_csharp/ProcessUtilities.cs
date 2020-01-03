@@ -9,36 +9,60 @@ namespace SO_simulation_csharp
     class ProcessUtilities
     {
 
-        private var Path = Environment.CurrentDirectory + "processes.xml";
+        private string Path;
 
-        private List<Process> CreateListOfProcesses(int processesAmount, int cpuBurstMinDuration, int cpuBurstMaxDuration)
+        public ProcessUtilities(string pathToXMLDirectory)
         {
-           List<Process> listOfProcesses = new List<Process>();
+            Path = pathToXMLDirectory;
+        }
+
+        public ProcessUtilities()
+        {
+            Path = Environment.CurrentDirectory + "processes.xml";
+        }
+
+        public List<Process> CreateListOfProcesses(int processesAmount, int cpuBurstMinDuration, int cpuBurstMaxDuration)
+        {
+            List<Process> listOfProcesses = new List<Process>();
             Random rnd = new Random();
-            for(int i =0; i<processesAmount;i++)
+            for(int i = 0; i<processesAmount;i++)
             {
-                listOfProcesses.Add(new Process(rnd.Next(cpuBurstMinDuration, cpuBurstMaxDuration)));
+                listOfProcesses.Add(new Process(rnd.Next(cpuBurstMinDuration, cpuBurstMaxDuration), 1));
             }
             return listOfProcesses;
         }
 
-        void SerializeToXMLFile(List<Process> list)
+        public void SerializeToXMLFile(List<Process> list)
         {
             System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(List<Process>));
-            
             System.IO.FileStream file = System.IO.File.Create(Path);
+            serializer.Serialize(file, list);
+            file.Close();
+        }
+
+        void SerializeToXMLFile(List<Process> list, string pathToXMLFile)
+        {
+            System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(List<Process>));
+            System.IO.FileStream file = System.IO.File.Create(pathToXMLFile);
             serializer.Serialize(file, list);
             file.Close();
         }
 
         public List<Process> LoadProcessesFromSerializedXML(string path)
         {
-            var Path = Environment.CurrentDirectory + "processes.xml";
             System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(List<Process>));
             System.IO.StreamReader file = new System.IO.StreamReader(Path);
             List<Process> list = (List<Process>)reader.Deserialize(file);
             file.Close();
             return list;
+        }
+
+        public void SerializeManyListsOfProcessesAtOnce(int amountOfProcessesLists, string pathToDirectoryForXMLFile)
+        {
+            for(int i = 0; i < amountOfProcessesLists; i++)
+            {
+                SerializeToXMLFile(CreateListOfProcesses(10, 100, 1000), pathToDirectoryForXMLFile+i+".xml");
+            }
         }
 
     }

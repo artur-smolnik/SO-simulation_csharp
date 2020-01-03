@@ -11,16 +11,14 @@ namespace SO_simulation_csharp
         private List<Process> ReadyProcessesList;
         private List<Process> DoneProcessesList;
         
-        public FCFS(List<Process> list)
+
+        public FCFS(List<Process> readyProcesses)
         {
-            ReadyProcessesList = list;
+            ReadyProcessesList = readyProcesses;
             DoneProcessesList = new List<Process>();
         }
 
-        public void LoadProcessesFromSerializedXML(string path)
-        {
-            
-        }
+        
     }
 
 }

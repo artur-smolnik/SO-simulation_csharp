@@ -11,7 +11,12 @@ namespace SO_simulation_csharp
     {
         static void Main(string[] args)
         {
-            //Process process = new Process();
+            //C:\Users\artur\Desktop\so sim
+            ProcessUtilities pu = new ProcessUtilities();
+            pu.SerializeManyListsOfProcessesAtOnce(10, @"C:\Users\artur\Desktop\so sim\");
+            
+            
+
 
         }
     }
