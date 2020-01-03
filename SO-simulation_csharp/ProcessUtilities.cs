@@ -8,7 +8,9 @@ namespace SO_simulation_csharp
 {
     class ProcessUtilities
     {
-    
+
+        private var Path = Environment.CurrentDirectory + "processes.xml";
+
         private List<Process> CreateListOfProcesses(int processesAmount, int cpuBurstMinDuration, int cpuBurstMaxDuration)
         {
            List<Process> listOfProcesses = new List<Process>();
@@ -23,12 +25,21 @@ namespace SO_simulation_csharp
         void SerializeToXMLFile(List<Process> list)
         {
             System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(typeof(List<Process>));
-            var Path = Environment.CurrentDirectory;
-            System.IO.FileStream file = System.IO.File.Create(Path+"processes.xml");
+            
+            System.IO.FileStream file = System.IO.File.Create(Path);
             serializer.Serialize(file, list);
             file.Close();
         }
 
+        public List<Process> LoadProcessesFromSerializedXML(string path)
+        {
+            var Path = Environment.CurrentDirectory + "processes.xml";
+            System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(List<Process>));
+            System.IO.StreamReader file = new System.IO.StreamReader(Path);
+            List<Process> list = (List<Process>)reader.Deserialize(file);
+            file.Close();
+            return list;
+        }
 
     }
 }
