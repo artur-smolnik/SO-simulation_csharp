@@ -22,20 +22,14 @@ namespace SO_simulation_csharp
         public Process(int cpuBurstTime, int waitingTime = 0)
         {
             CpuBurstTime = cpuBurstTime;
-            TurnAroundTime = waitingTime;
             WaitingTime = waitingTime;
+            TurnAroundTime = waitingTime;
         }
 
         public int CpuBurstTime { get => cpuBurstTime; set => cpuBurstTime = value; }
         public int TurnAroundTime { get => turnAroundTime; set => turnAroundTime = value; }
         public int WaitingTime { get => waitingTime; set => waitingTime = value; }
-
-        //public int CpuBurstTime { get => CpuBurstTime; set => CpuBurstTime = value; }
-        //public int TurnAroundTime { get => TurnAroundTime; set => TurnAroundTime = value; }
-        //public int WaitingTime { get => WaitingTime; set => WaitingTime = value; }
-
-
-
+        
 
 
 

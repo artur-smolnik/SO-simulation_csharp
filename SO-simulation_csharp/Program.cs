@@ -14,22 +14,23 @@ namespace SO_simulation_csharp
         {
             //C:\Users\artur\Desktop\so sim
             ProcessUtilities pu = new ProcessUtilities();
-            pu.SerializeManyListsOfProcessesAtOnce(100, 100, 1000, @"C:\Users\artur\Desktop\so sim\");
+            //pu.SerializeManyListsOfProcessesAtOnce(100, 10, 1000000, @"C:\Users\artur\Desktop\so sim\");
+            FCFS fCFS = new FCFS(@"C:\Users\artur\Desktop\so sim\");
+            fCFS.RunFCFS();
 
+            //List<List<Process>> lists = pu.LoadManyListOfProcessesFromSerializedXMLs(@"C:\Users\artur\Desktop\so sim");
+            //int i = 1;
+            //foreach (var v in lists)
+            //{
+            //    Console.Write(i + " ciag: ");
+            //    foreach (var x in v)
+            //    {
+            //        Console.Write(x.CpuBurstTime + " ");
+            //    }
+            //    Console.WriteLine();
 
-            List<List<Process>> lists = pu.LoadManyListOfProcessesFromSerializedXMLs(@"C:\Users\artur\Desktop\so sim");
-            int i = 1;
-            foreach (var v in lists)
-            {
-                Console.Write(i + " ciag: ");
-                foreach (var x in v)
-                {
-                    Console.Write(x.CpuBurstTime + " ");
-                }
-                Console.WriteLine();
-
-                i++;
-            }
+            //    i++;
+            //}
 
 
         }
