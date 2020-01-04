@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
+
 namespace SO_simulation_csharp
 {
     class Program
@@ -13,9 +14,22 @@ namespace SO_simulation_csharp
         {
             //C:\Users\artur\Desktop\so sim
             ProcessUtilities pu = new ProcessUtilities();
-            pu.SerializeManyListsOfProcessesAtOnce(10, @"C:\Users\artur\Desktop\so sim\");
-            
-            
+            pu.SerializeManyListsOfProcessesAtOnce(100, 100, 1000, @"C:\Users\artur\Desktop\so sim\");
+
+
+            List<List<Process>> lists = pu.LoadManyListOfProcessesFromSerializedXMLs(@"C:\Users\artur\Desktop\so sim");
+            int i = 1;
+            foreach (var v in lists)
+            {
+                Console.Write(i + " ciag: ");
+                foreach (var x in v)
+                {
+                    Console.Write(x.CpuBurstTime + " ");
+                }
+                Console.WriteLine();
+
+                i++;
+            }
 
 
         }
