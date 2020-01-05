@@ -9,9 +9,9 @@ namespace SO_simulation_csharp
 {
     public class Process
     {
-        int cpuBurstTime;
-        int turnAroundTime;
-        int waitingTime;
+        long cpuBurstTime;
+        long turnAroundTime;
+        long waitingTime;
 
        
 
@@ -19,18 +19,18 @@ namespace SO_simulation_csharp
         {
         }
 
-        public Process(int cpuBurstTime, int waitingTime = 0)
+        public Process(long cpuBurstTime, long waitingTime = 0)
         {
             CpuBurstTime = cpuBurstTime;
             WaitingTime = waitingTime;
-            TurnAroundTime = waitingTime;
+            TurnaroundTime = waitingTime;
         }
 
-        public int CpuBurstTime { get => cpuBurstTime; set => cpuBurstTime = value; }
-        public int TurnAroundTime { get => turnAroundTime; set => turnAroundTime = value; }
-        public int WaitingTime { get => waitingTime; set => waitingTime = value; }
-        
+        public long CpuBurstTime { get => cpuBurstTime; set => cpuBurstTime = value; }
+        public long TurnaroundTime { get => turnAroundTime; set => turnAroundTime = value; }
+        public long WaitingTime { get => waitingTime; set => waitingTime = value; }
 
+        
 
 
 
