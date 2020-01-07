@@ -14,12 +14,14 @@ namespace SO_simulation_csharp
         {
             //C:\Users\artur\Desktop\so sim
             ProcessUtilities pu = new ProcessUtilities();
-            pu.SerializeManyListsOfProcessesAtOnce(100, 50, 10, 1000000, @"C:\Users\artur\Desktop\so sim\");
+            pu.SerializeManyListsOfProcessesAtOnce(5, 20, 10, 1000, @"C:\Users\artur\Desktop\so sim\");
             pu.LoadManyListOfProcessesFromSerializedXMLs(@"C:\Users\artur\Desktop\so sim\");
-            FCFS fCFS = new FCFS(@"C:\Users\artur\Desktop\so sim\");
-            fCFS.RunFCFS();
-            fCFS.PrintFCFSResults();
-
+            //FCFS fCFS = new FCFS(@"C:\Users\artur\Desktop\so sim\");
+            //fCFS.RunFCFS();
+            //fCFS.PrintFCFSResults();
+            SJF_NP sJF_NP = new SJF_NP(@"C:\Users\artur\Desktop\so sim\");
+            sJF_NP.SortLoadedProcesses();
+            //sJF_NP.RunSJF_NP();
 
         }
     }

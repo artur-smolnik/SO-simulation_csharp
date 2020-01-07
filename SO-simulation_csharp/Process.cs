@@ -30,8 +30,12 @@ namespace SO_simulation_csharp
         public long TurnaroundTime { get => turnAroundTime; set => turnAroundTime = value; }
         public long WaitingTime { get => waitingTime; set => waitingTime = value; }
 
-        
 
+        public int CompareTo(long objectToCompareWith)
+        {
+            if (this.cpuBurstTime < objectToCompareWith) return 1;
+            else return 0;
+        }
 
 
 
