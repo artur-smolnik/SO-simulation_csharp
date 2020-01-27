@@ -19,7 +19,6 @@ namespace SO_simulation_csharp
         public long NumberOfListsOfProcesses { get => numberOfListsOfProcesses; set => numberOfListsOfProcesses = value; }
         public int AmountOfProcessesPerList { get => amountOfProcessesPerList; set => amountOfProcessesPerList = value; }
         public int AmountOfProcessesLists { get => amountOfProcessesLists; set => amountOfProcessesLists = value; }
-
         public ProcessUtilities()
         {
             accessToLoad = true;
@@ -90,7 +89,7 @@ namespace SO_simulation_csharp
                 }
                 AmountOfProcessesLists = listOfListsOfProcesses.Count;
                 AmountOfProcessesPerList = listOfListsOfProcesses.Count * listOfListsOfProcesses.Last().Count;
-                Console.WriteLine(">>>>>>>>>>>>>>>>> lists: " + AmountOfProcessesLists + " >>>>>>>>>>>> processes: " + AmountOfProcessesPerList);
+                //Console.WriteLine(">>>>>>>>>>>>>>>>> lists: " + AmountOfProcessesLists + " >>>>>>>>>>>> processes: " + AmountOfProcessesPerList);
                 accessToLoad = false;
                 return listOfListsOfProcesses;
             }

@@ -13,8 +13,6 @@ namespace SO_simulation_csharp
         long turnAroundTime;
         long waitingTime;
 
-       
-
         public Process()
         {
         }

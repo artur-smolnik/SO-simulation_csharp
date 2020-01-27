@@ -27,12 +27,9 @@ namespace SO_simulation_csharp
         {
             List<List<Process>> tmpListOfLists = new List<List<Process>>();
             List<Process> sortedProcesses = new List<Process>();
-            Console.WriteLine("LoadedProcesses.Count:" + LoadedListsOfProcesses.Count);
-            Console.WriteLine("LoadedProcesses.Last().Count" + LoadedListsOfProcesses.Last().Count);
-
+          
             for (int i = 0; i < LoadedListsOfProcesses.Count; i++)
             {
-
                 ReadyProcessesList = LoadedListsOfProcesses.ElementAt(i);
                 ReadyProcessesList = ReadyProcessesList.OrderBy(process => process.CpuBurstTime).ToList();
                 tmpListOfLists.Add(ReadyProcessesList);               
@@ -40,26 +37,18 @@ namespace SO_simulation_csharp
 
             LoadedListsOfProcesses = tmpListOfLists;
         }
+
         public void RunSJF_NP()
         {
-
-            //for (int i = 0; i < LoadedProcesses.Count; i++)
-            //{
-            //    //LoadedProcesses.ElementAt(i) = LoadedProcesses.ElementAt(i).OrderBy(process => process.CpuBurstTime).ToList();
-            //}
-
             while (true)
             {
-
                 if (LoadedListsOfProcesses.Count == 0) break;
 
                 foreach (Process process in LoadedListsOfProcesses.First())
                 {
                     process.WaitingTime = cyclesNumber;
                     process.TurnaroundTime = (cyclesNumber + process.CpuBurstTime);
-
                     cyclesNumber += process.CpuBurstTime;
-
                 }
                 cyclesNumber = 0;
                 DoneProcessesList.Add(LoadedListsOfProcesses.First());
@@ -100,16 +89,21 @@ namespace SO_simulation_csharp
             return listOfTurnaroundTime;
         }
 
-        public void PrintFCFSResults()
+        public void PrintSJF_NPResults()
         {
             List<long> listAverageWaiting = AverageWaitingTimeForEachSequenceInMiliSec();
             List<long> listAverageTurnaround = AverageTurnAroundTimeForEachSequenceInMiliSec();
 
+            long averageWaitingTime = 0;
+            long averageTurnaroundTime = 0;
             for (int i = 0; i < processUtilities.AmountOfProcessesLists; i++)
             {
-                //Console.WriteLine((i + 1) + ". Sequence: Average Waiting Time > " + listAverageWaiting.ElementAt(i) + " <, Average TurnaroundTime > " + listAverageTurnaround.ElementAt(i) + " <");
-                Console.WriteLine("Sequence: Average Waiting Time > " + listAverageWaiting.ElementAt(i) + " <, Average TurnaroundTime > " + listAverageTurnaround.ElementAt(i) + " <");
+                averageWaitingTime += listAverageWaiting.ElementAt(i);
+                averageTurnaroundTime += listAverageTurnaround.ElementAt(i);
             }
+            Console.WriteLine("SJF RESULTS:");
+            Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + listAverageTurnaround + " <");
+
         }
     }
 }

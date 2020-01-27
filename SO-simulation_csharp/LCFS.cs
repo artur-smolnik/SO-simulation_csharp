@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace SO_simulation_csharp
 {
-    class FCFS
+    class LCFS
     {
         private List<Process> ReadyProcessesList;
         private List<List<Process>> DoneProcessesList;
@@ -15,7 +14,7 @@ namespace SO_simulation_csharp
         private ProcessUtilities processUtilities;
         private long cyclesNumber;
 
-        public FCFS(string pathToDirectoryWithXMLFiles)
+        public LCFS(string pathToDirectoryWithXMLFiles)
         {
             ReadyProcessesList = new List<Process>();
             DoneProcessesList = new List<List<Process>>();
@@ -24,15 +23,19 @@ namespace SO_simulation_csharp
             cyclesNumber = 0;
         }
 
-
-
-        public void RunFCFS()
+        public void RunLCFS()
         {
+            /*Edit: There is one more step if you are dealing specifically 
+             * with a List<T>. That class defines its own Reverse method \
+             * whose signature is not the same as the Enumerable.Reverse
+             * extension method. In that case, you need to "lift" the variable 
+             * reference to IEnumerable<T>*/
+
             while (true)
             {
                 if (LoadedProcesses.Count == 0) break;
 
-                foreach (Process process in LoadedProcesses.First())
+                foreach (Process process in LoadedProcesses.First().AsEnumerable().Reverse())
                 {
                     process.WaitingTime = cyclesNumber;
                     process.TurnaroundTime = (cyclesNumber + process.CpuBurstTime);
@@ -80,22 +83,20 @@ namespace SO_simulation_csharp
             return listOfTurnaroundTime;
         }
 
-        public void PrintFCFSResults()
+        public void PrintLCFSResults()
         {
             List<long> listAverageWaiting = AverageWaitingTimeForEachSequenceInMiliSec();
             List<long> listAverageTurnaround = AverageTurnAroundTimeForEachSequenceInMiliSec();
-
-
             long averageWaitingTime = 0;
             long averageTurnaroundTime = 0;
-            for(int i = 0; i < processUtilities.AmountOfProcessesLists; i++)
+            for (int i = 0; i < processUtilities.AmountOfProcessesLists; i++)
             {
                 averageWaitingTime += listAverageWaiting.ElementAt(i);
                 averageTurnaroundTime += listAverageTurnaround.ElementAt(i);
             }
-            Console.WriteLine("FCFS PREEMPTIVE RESULTS:");
+            Console.WriteLine("LCFS PREEMPTIVE RESULTS:");
             Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + listAverageTurnaround + " <");
-            
+
         }
     }
 }
