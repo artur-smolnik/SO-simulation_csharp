@@ -32,16 +32,17 @@ namespace SO_simulation_csharp
         public void SortLoadedProcesses()
         {
             List<List<Process>> tmpListOfLists = new List<List<Process>>();
-            List<Process> sortedProcesses = new List<Process>();
-          
-            for (int i = 0; i < LoadedProcesses.Count; i++)
-            {
-                ReadyProcessesList = LoadedProcesses.ElementAt(i);
-                ReadyProcessesList = ReadyProcessesList.OrderBy(process => process.CpuBurstTime).ToList();
-                tmpListOfLists.Add(ReadyProcessesList);               
+
+            foreach( List<Process> loadedProcesses in LoadedProcesses)
+            { 
+                tmpListOfLists.Add(loadedProcesses.OrderBy(process => process.CpuBurstTime).ToList());
             }
 
-            LoadedProcesses = tmpListOfLists;
+            LoadedProcesses.Clear();
+            for (int i = 0; i < tmpListOfLists.Count; i++)
+            {
+                LoadedProcesses.Add(tmpListOfLists.ElementAt(i));
+            }
         }
 
         public void RunSJF_NP()

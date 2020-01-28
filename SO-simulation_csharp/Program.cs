@@ -22,11 +22,11 @@ namespace SO_simulation_csharp
 
             fCFS.RunFCFS();
             fCFS.PrintFCFSResults();
-
-            //sJF_NP.RunSJF_NP();            
-            //sJF_NP.PrintSJF_NPResults();
             lCFS.RunLCFS();
             lCFS.PrintLCFSResults();
+            sJF_NP.RunSJF_NP();            
+            sJF_NP.PrintSJF_NPResults();
+
         }
     }
 }
