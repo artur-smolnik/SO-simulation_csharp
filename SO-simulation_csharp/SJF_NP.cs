@@ -10,7 +10,7 @@ namespace SO_simulation_csharp
     {
         private List<Process> ReadyProcessesList;
         private List<List<Process>> DoneProcessesList;
-        private List<List<Process>> LoadedListsOfProcesses;
+        private List<List<Process>> LoadedProcesses;
         private ProcessUtilities processUtilities;
         private long cyclesNumber;
 
@@ -18,8 +18,14 @@ namespace SO_simulation_csharp
         {
             ReadyProcessesList = new List<Process>();
             DoneProcessesList = new List<List<Process>>();
+            LoadedProcesses = new List<List<Process>>();
             this.processUtilities = processUtilities;
-            LoadedListsOfProcesses = processUtilities.GetListOfListsOfProcesses();
+
+            for (int i = 0; i < processUtilities.GetListOfListsOfProcesses().Count; i++)
+            {
+                LoadedProcesses.Add(processUtilities.GetListOfListsOfProcesses().ElementAt(i));
+            }
+
             cyclesNumber = 0;
         }
 
@@ -28,14 +34,14 @@ namespace SO_simulation_csharp
             List<List<Process>> tmpListOfLists = new List<List<Process>>();
             List<Process> sortedProcesses = new List<Process>();
           
-            for (int i = 0; i < LoadedListsOfProcesses.Count; i++)
+            for (int i = 0; i < LoadedProcesses.Count; i++)
             {
-                ReadyProcessesList = LoadedListsOfProcesses.ElementAt(i);
+                ReadyProcessesList = LoadedProcesses.ElementAt(i);
                 ReadyProcessesList = ReadyProcessesList.OrderBy(process => process.CpuBurstTime).ToList();
                 tmpListOfLists.Add(ReadyProcessesList);               
             }
 
-            LoadedListsOfProcesses = tmpListOfLists;
+            LoadedProcesses = tmpListOfLists;
         }
 
         public void RunSJF_NP()
@@ -43,17 +49,17 @@ namespace SO_simulation_csharp
             SortLoadedProcesses();
             while (true)
             {
-                if (LoadedListsOfProcesses.Count == 0) break;
+                if (LoadedProcesses.Count == 0) break;
 
-                foreach (Process process in LoadedListsOfProcesses.First())
+                foreach (Process process in LoadedProcesses.First())
                 {
                     process.WaitingTime = cyclesNumber;
                     process.TurnaroundTime = (cyclesNumber + process.CpuBurstTime);
                     cyclesNumber += process.CpuBurstTime;
                 }
                 cyclesNumber = 0;
-                DoneProcessesList.Add(LoadedListsOfProcesses.First());
-                LoadedListsOfProcesses.RemoveAt(0);
+                DoneProcessesList.Add(LoadedProcesses.First());
+                LoadedProcesses.RemoveAt(0);
             }
         }
         public List<long> AverageWaitingTimeForEachSequenceInMiliSec()

@@ -16,7 +16,8 @@ namespace SO_simulation_csharp
             ProcessUtilities pu = new ProcessUtilities(@"C:\Users\artur\Desktop\so sim\");
             //pu.SerializeManyListsOfProcessesAtOnce(2, 10, 10, 1000, @"C:\Users\artur\Desktop\so sim\");
             FCFS fCFS = new FCFS(pu);
-           
+            LCFS lCFS = new LCFS(pu);
+
             SJF_NP sJF_NP = new SJF_NP(pu);
 
             fCFS.RunFCFS();
@@ -24,7 +25,6 @@ namespace SO_simulation_csharp
 
             //sJF_NP.RunSJF_NP();            
             //sJF_NP.PrintSJF_NPResults();
-            LCFS lCFS = new LCFS(pu);
             lCFS.RunLCFS();
             lCFS.PrintLCFSResults();
         }

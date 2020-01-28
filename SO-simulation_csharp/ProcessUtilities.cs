@@ -23,7 +23,7 @@ namespace SO_simulation_csharp
         {
             AmountOfProcessesPerList = 0;
             AmountOfProcessesLists = 0;
-            SerializeManyListsOfProcessesAtOnce(20, 1000, 10, 100, @"C:\Users\artur\Desktop\so sim\");
+            SerializeManyListsOfProcessesAtOnce(10, 100, 10, 100, @"C:\Users\artur\Desktop\so sim\");
             listOfListsOfProcesses = LoadManyListOfProcessesFromSerializedXMLs(pathToDirectoryWithXMLFiles);
             //Console.WriteLine("listOfListsOfProcesses= " + listOfListsOfProcesses.Count);
 
