@@ -8,28 +8,28 @@ namespace SO_simulation_csharp
 {
     class LCFS
     {
-        private List<Process> ReadyProcessesList;
         private List<List<Process>> DoneProcessesList;
         private List<List<Process>> LoadedProcesses;
         private ProcessUtilities processUtilities;
         private long cyclesNumber;
 
-        public LCFS(string pathToDirectoryWithXMLFiles)
+        public LCFS(ProcessUtilities processUtilities)
         {
-            ReadyProcessesList = new List<Process>();
             DoneProcessesList = new List<List<Process>>();
-            processUtilities = new ProcessUtilities();
-            LoadedProcesses = processUtilities.LoadManyListOfProcessesFromSerializedXMLs(pathToDirectoryWithXMLFiles);
+            this.processUtilities = processUtilities;
+            LoadedProcesses = new List<List<Process>>();
+
+
+            for (int i = 0; i < processUtilities.GetListOfListsOfProcesses().Count; i++)
+            {
+                LoadedProcesses.Add(processUtilities.GetListOfListsOfProcesses().ElementAt(i));
+            }
             cyclesNumber = 0;
         }
 
         public void RunLCFS()
         {
-            /*Edit: There is one more step if you are dealing specifically 
-             * with a List<T>. That class defines its own Reverse method \
-             * whose signature is not the same as the Enumerable.Reverse
-             * extension method. In that case, you need to "lift" the variable 
-             * reference to IEnumerable<T>*/
+            Console.WriteLine("RunLCFS LoadedProcesses= " + LoadedProcesses.Count);
 
             while (true)
             {
@@ -41,17 +41,18 @@ namespace SO_simulation_csharp
                     process.TurnaroundTime = (cyclesNumber + process.CpuBurstTime);
 
                     cyclesNumber += process.CpuBurstTime;
-
                 }
                 cyclesNumber = 0;
                 DoneProcessesList.Add(LoadedProcesses.First());
                 LoadedProcesses.RemoveAt(0);
+
             }
+            Console.WriteLine("DoneProcessesList= " + DoneProcessesList.Count);
+
         }
 
         public List<long> AverageWaitingTimeForEachSequenceInMiliSec()
         {
-
             long waitingTime = 0;
             List<long> listOfWaitingTimes = new List<long>();
 
@@ -87,6 +88,7 @@ namespace SO_simulation_csharp
         {
             List<long> listAverageWaiting = AverageWaitingTimeForEachSequenceInMiliSec();
             List<long> listAverageTurnaround = AverageTurnAroundTimeForEachSequenceInMiliSec();
+           
             long averageWaitingTime = 0;
             long averageTurnaroundTime = 0;
             for (int i = 0; i < processUtilities.AmountOfProcessesLists; i++)
@@ -95,7 +97,7 @@ namespace SO_simulation_csharp
                 averageTurnaroundTime += listAverageTurnaround.ElementAt(i);
             }
             Console.WriteLine("LCFS PREEMPTIVE RESULTS:");
-            Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + listAverageTurnaround + " <");
+            Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + averageTurnaroundTime + " <");
 
         }
     }

@@ -9,23 +9,24 @@ namespace SO_simulation_csharp
 {
     class ProcessUtilities
     {
-        private long numberOfProcesses;
-        private bool accessToLoad;
-        private long numberOfListsOfProcesses;
+
         private int amountOfProcessesPerList;
         private int amountOfProcessesLists;
+        List<List<Process>> listOfListsOfProcesses;
 
-        public long NumberOfLoadedProcesses { get => numberOfProcesses; set => numberOfProcesses = value; }
-        public long NumberOfListsOfProcesses { get => numberOfListsOfProcesses; set => numberOfListsOfProcesses = value; }
         public int AmountOfProcessesPerList { get => amountOfProcessesPerList; set => amountOfProcessesPerList = value; }
         public int AmountOfProcessesLists { get => amountOfProcessesLists; set => amountOfProcessesLists = value; }
-        public ProcessUtilities()
+        public List<List<Process>> GetListOfListsOfProcesses() { return listOfListsOfProcesses; }
+
+
+        public ProcessUtilities(string pathToDirectoryWithXMLFiles)
         {
-            accessToLoad = true;
-            NumberOfLoadedProcesses = 0;
-            numberOfListsOfProcesses = 0;
             AmountOfProcessesPerList = 0;
             AmountOfProcessesLists = 0;
+            SerializeManyListsOfProcessesAtOnce(20, 1000, 10, 100, @"C:\Users\artur\Desktop\so sim\");
+            listOfListsOfProcesses = LoadManyListOfProcessesFromSerializedXMLs(pathToDirectoryWithXMLFiles);
+            //Console.WriteLine("listOfListsOfProcesses= " + listOfListsOfProcesses.Count);
+
         }
 
         public List<Process> CreateListOfProcesses(int processesAmount, int cpuBurstMinDuration, int cpuBurstMaxDuration)
@@ -54,7 +55,7 @@ namespace SO_simulation_csharp
             System.IO.StreamReader file = new System.IO.StreamReader(pathToXmlFile);
             List<Process> list = (List<Process>)reader.Deserialize(file);
             file.Close();
-            NumberOfLoadedProcesses += list.Count;
+
             return list;
         }
 
@@ -69,30 +70,19 @@ namespace SO_simulation_csharp
 
         public List<List<Process>> LoadManyListOfProcessesFromSerializedXMLs(string pathToDirectoryWithXMLFiles)
         {
-            if (accessToLoad == false)
+            List<List<Process>> listOfListsOfProcesses = new List<List<Process>>();
+
+            string[] folderContent = Directory.GetFiles(pathToDirectoryWithXMLFiles);
+
+
+            foreach (var filepath in folderContent)
             {
-                Console.WriteLine("Processes can be loaded only once during program runtime");
-                return null;
+                listOfListsOfProcesses.Add(LoadProcessesFromSerializedXML(filepath));
             }
-            else
-            {
+            AmountOfProcessesLists = folderContent.Count();
+            AmountOfProcessesPerList = listOfListsOfProcesses.Last().Count;
+            return listOfListsOfProcesses;
 
-
-                List<List<Process>> listOfListsOfProcesses = new List<List<Process>>();
-
-                //loading  filepath from given directory 
-                string[] folderContent = Directory.GetFiles(pathToDirectoryWithXMLFiles);
-                NumberOfListsOfProcesses = folderContent.Count();
-                foreach (var filepath in folderContent)
-                {
-                    listOfListsOfProcesses.Add(LoadProcessesFromSerializedXML(filepath));
-                }
-                AmountOfProcessesLists = listOfListsOfProcesses.Count;
-                AmountOfProcessesPerList = listOfListsOfProcesses.Count * listOfListsOfProcesses.Last().Count;
-                //Console.WriteLine(">>>>>>>>>>>>>>>>> lists: " + AmountOfProcessesLists + " >>>>>>>>>>>> processes: " + AmountOfProcessesPerList);
-                accessToLoad = false;
-                return listOfListsOfProcesses;
-            }
         }
 
     }

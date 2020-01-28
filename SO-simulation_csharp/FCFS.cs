@@ -9,22 +9,25 @@ namespace SO_simulation_csharp
 {
     class FCFS
     {
-        private List<Process> ReadyProcessesList;
         private List<List<Process>> DoneProcessesList;
         private List<List<Process>> LoadedProcesses;
         private ProcessUtilities processUtilities;
         private long cyclesNumber;
+        private List<List<Process>> tmpchuj;
 
-        public FCFS(string pathToDirectoryWithXMLFiles)
+        public FCFS(ProcessUtilities processUtilities)
         {
-            ReadyProcessesList = new List<Process>();
             DoneProcessesList = new List<List<Process>>();
-            processUtilities = new ProcessUtilities();
-            LoadedProcesses = processUtilities.LoadManyListOfProcessesFromSerializedXMLs(pathToDirectoryWithXMLFiles);
+            this.processUtilities = processUtilities;
+            LoadedProcesses = new List<List<Process>>();
+            tmpchuj = processUtilities.GetListOfListsOfProcesses();
+            foreach(var v in tmpchuj)
+            {
+                LoadedProcesses.Add(v);
+            }
+            //LoadedProcesses = processUtilities.GetListOfListsOfProcesses();
             cyclesNumber = 0;
         }
-
-
 
         public void RunFCFS()
         {
@@ -49,8 +52,8 @@ namespace SO_simulation_csharp
         public List<long> AverageWaitingTimeForEachSequenceInMiliSec()
         {
 
-            long waitingTime = 0;
             List<long> listOfWaitingTimes = new List<long>();
+            long waitingTime = 0;
 
             foreach (List<Process> list in DoneProcessesList)
             {
@@ -68,6 +71,7 @@ namespace SO_simulation_csharp
         {
             List<long> listOfTurnaroundTime = new List<long>();
             long turnaroundTime = 0;
+
             foreach (List<Process> list in DoneProcessesList)
             {
                 foreach (Process process in list)
@@ -84,17 +88,16 @@ namespace SO_simulation_csharp
         {
             List<long> listAverageWaiting = AverageWaitingTimeForEachSequenceInMiliSec();
             List<long> listAverageTurnaround = AverageTurnAroundTimeForEachSequenceInMiliSec();
-
-
             long averageWaitingTime = 0;
             long averageTurnaroundTime = 0;
-            for(int i = 0; i < processUtilities.AmountOfProcessesLists; i++)
+
+            for(int i = 0; i < listAverageWaiting.Count; i++)
             {
                 averageWaitingTime += listAverageWaiting.ElementAt(i);
                 averageTurnaroundTime += listAverageTurnaround.ElementAt(i);
             }
             Console.WriteLine("FCFS PREEMPTIVE RESULTS:");
-            Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + listAverageTurnaround + " <");
+            Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + averageTurnaroundTime + " <");
             
         }
     }

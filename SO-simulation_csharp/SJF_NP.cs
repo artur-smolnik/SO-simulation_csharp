@@ -14,12 +14,12 @@ namespace SO_simulation_csharp
         private ProcessUtilities processUtilities;
         private long cyclesNumber;
 
-        public SJF_NP(string pathToDirectoryWithXMLFiles)
+        public SJF_NP(ProcessUtilities processUtilities)
         {
             ReadyProcessesList = new List<Process>();
             DoneProcessesList = new List<List<Process>>();
-            processUtilities = new ProcessUtilities();
-            LoadedListsOfProcesses = processUtilities.LoadManyListOfProcessesFromSerializedXMLs(pathToDirectoryWithXMLFiles);
+            this.processUtilities = processUtilities;
+            LoadedListsOfProcesses = processUtilities.GetListOfListsOfProcesses();
             cyclesNumber = 0;
         }
 
@@ -40,6 +40,7 @@ namespace SO_simulation_csharp
 
         public void RunSJF_NP()
         {
+            SortLoadedProcesses();
             while (true)
             {
                 if (LoadedListsOfProcesses.Count == 0) break;
@@ -102,7 +103,7 @@ namespace SO_simulation_csharp
                 averageTurnaroundTime += listAverageTurnaround.ElementAt(i);
             }
             Console.WriteLine("SJF RESULTS:");
-            Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + listAverageTurnaround + " <");
+            Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + averageTurnaroundTime + " <");
 
         }
     }

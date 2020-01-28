@@ -34,17 +34,5 @@ namespace SO_simulation_csharp
             if (this.cpuBurstTime < objectToCompareWith) return 1;
             else return 0;
         }
-
-
-
-        /*
-         using System.Diagnostics;
-        // ...
-        Stopwatch sw = new Stopwatch();
-        sw.Start();
-        // ...
-        sw.Stop();
-        Console.WriteLine("Elapsed={0}",sw.Elapsed);
-         */
     }
 }
