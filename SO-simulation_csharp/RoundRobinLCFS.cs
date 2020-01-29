@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Collections;
 
 namespace SO_simulation_csharp
 {
@@ -38,12 +40,12 @@ namespace SO_simulation_csharp
         /// Inicjalizuje obiekt ProcesUtilities i ustawia cyclesNumber na 0, kwant czas ustawiony na 10
         /// </summary>
         /// <param name="processUtilities">Obiekt klasy ProcessUtilities</param>
-        public RoundRobinLCFS(ProcessUtilities processUtilities)
+        public RoundRobinLCFS(ProcessUtilities processUtilities, double quantum)
         {
             LoadedProcesses = new List<List<Process>>(processUtilities.LoadManyListOfProcessesFromSerializedXMLs());
             this.processUtilities = processUtilities;
             cyclesNumber = 0;
-            quantum = 10;
+            this.quantum = quantum;
             foreach (List<Process> list in LoadedProcesses)
             {
                 foreach (Process process in list)
@@ -148,6 +150,30 @@ namespace SO_simulation_csharp
 
             Console.WriteLine("RoundRobinLCFS RESULTS:");
             Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + averageTurnaroundTime + " <");
+            WriteResultsToFile();
+        }
+
+        /// <summary>
+        /// Funkcja zapisuje wyniki dzialania algorytmu do wygenerowanego pliku txt
+        /// </summary>
+        public void WriteResultsToFile()
+        {
+            FileInfo fileInfo = new FileInfo(@"C:\Users\artur\Desktop\wyniki symulacji\wyniki Round Robin LCFS with quantum " + quantum + ".txt");
+            StreamWriter streamWriter = fileInfo.CreateText();
+            streamWriter.WriteLine("RoundRobinLCFS average waiting times for each sequence with quantum " + quantum + " :");
+            foreach (var time in AverageWaitingTimeForEachSequence())
+            {
+                streamWriter.Write("[" + time + "] ");
+
+            }
+            streamWriter.WriteLine();
+            streamWriter.WriteLine("RoundRobinLCFS average turnaround times for each sequence with quantum " + quantum + " :");
+            foreach (var time in AverageTurnaroundTimeForEachSequence())
+            {
+                streamWriter.Write("[" + time + "] ");
+            }
+            streamWriter.Close();
+
         }
     }
 }

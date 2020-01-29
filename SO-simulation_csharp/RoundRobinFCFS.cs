@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Collections;
 
 namespace SO_simulation_csharp
 {
@@ -38,11 +40,11 @@ namespace SO_simulation_csharp
         /// Inicjalizuje obiekt ProcesUtilities i ustawia cyclesNumber na 0, kwant czas ustawiony na 10
         /// </summary>
         /// <param name="processUtilities">Obiekt klasy ProcessUtilities</param>
-        public RoundRobinFCFS(ProcessUtilities processUtilities)
+        public RoundRobinFCFS(ProcessUtilities processUtilities, double quantum)
         {
             LoadedProcesses = new List<List<Process>>(processUtilities.LoadManyListOfProcessesFromSerializedXMLs());
             this.processUtilities = processUtilities;
-            quantum = 10;
+            this.quantum = quantum;
             cyclesNumber = 0;
                         
             foreach (List<Process> list in LoadedProcesses)
@@ -145,9 +147,32 @@ namespace SO_simulation_csharp
             averageWaitingTime /= processUtilities.AmountOfProcessesLists;
             averageTurnaroundTime /= processUtilities.AmountOfProcessesLists;
 
-            Console.WriteLine("RoundRobinFCFS RESULTS:");
+            Console.WriteLine("RoundRobinFCFS with quantum = " + quantum + " RESULTS:");
             Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + averageTurnaroundTime + " <");
+            WriteResultsToFile();
         }
 
+        /// <summary>
+        /// Funkcja zapisuje wyniki dzialania algorytmu do wygenerowanego pliku txt
+        /// </summary>
+        public void WriteResultsToFile()
+        {
+            FileInfo fileInfo = new FileInfo(@"C:\Users\artur\Desktop\wyniki symulacji\wyniki Round Robin FCFS with quantum "+quantum+".txt");
+            StreamWriter streamWriter = fileInfo.CreateText();
+            streamWriter.WriteLine("RoundRobinFCFS average waiting times for each sequence with quantum " + quantum+ " :");
+            foreach (var time in AverageWaitingTimeForEachSequence())
+            {
+                streamWriter.Write("[" + time + "] ");
+
+            }
+            streamWriter.WriteLine();
+            streamWriter.WriteLine("RoundRobinFCFS average turnaround times for each sequence with quantum " + quantum + " :");
+            foreach (var time in AverageTurnaroundTimeForEachSequence())
+            {
+                streamWriter.Write("[" + time + "] ");
+            }
+            streamWriter.Close();
+
+        }
     }
 }

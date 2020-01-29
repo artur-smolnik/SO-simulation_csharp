@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Collections;
 
 namespace SO_simulation_csharp
 {
-    class SJF_NP
+    class SJF
     {
         /// <summary>
         /// Lista przechowujaca ciagi procesow
@@ -42,8 +44,8 @@ namespace SO_simulation_csharp
         public void SortLoadedProcesses()
         {
             List<List<Process>> tmpListOfLists = new List<List<Process>>();
-            foreach ( List<Process> loadedProcesses in LoadedProcesses)
-            { 
+            foreach (List<Process> loadedProcesses in LoadedProcesses)
+            {
                 tmpListOfLists.Add(loadedProcesses.OrderBy(process => process.CpuBurstTime).ToList());
             }
             LoadedProcesses.Clear();
@@ -62,9 +64,9 @@ namespace SO_simulation_csharp
             while (true)
             {
                 //if (LoadedProcesses.Count == 0) break;
-                foreach(List<Process> list in LoadedProcesses)
+                foreach (List<Process> list in LoadedProcesses)
                 {
-                    foreach(Process process in list)
+                    foreach (Process process in list)
                     {
                         process.WaitingTime = cyclesNumber;
                         process.TurnaroundTime = (cyclesNumber + process.CpuBurstTime);
@@ -136,6 +138,29 @@ namespace SO_simulation_csharp
 
             Console.WriteLine("SJF RESULTS:");
             Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + averageTurnaroundTime + " <");
+            WriteResultsToFile();
+        }
+
+        /// <summary>
+        /// Funkcja zapisuje wyniki dzialania algorytmu do wygenerowanego pliku txt
+        /// </summary>
+        public void WriteResultsToFile()
+        {
+            FileInfo fileInfo = new FileInfo(@"C:\Users\artur\Desktop\wyniki symulacji\wynikiSJF.txt");
+            StreamWriter streamWriter = fileInfo.CreateText();
+            streamWriter.WriteLine("SJF average waiting times for each sequence:");
+            foreach (var time in AverageWaitingTimeForEachSequence())
+            {
+                streamWriter.Write("[" + time + "] ");
+
+            }
+            streamWriter.WriteLine();
+            streamWriter.WriteLine("SJF average turnaround times for each sequence:");
+            foreach (var time in AverageTurnaroundTimeForEachSequence())
+            {
+                streamWriter.Write("[" + time + "] ");
+            }
+            streamWriter.Close();
 
         }
     }

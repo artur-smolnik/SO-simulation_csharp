@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.IO;
+using System.Collections;
 
 namespace SO_simulation_csharp
 {
@@ -118,6 +119,29 @@ namespace SO_simulation_csharp
 
             Console.WriteLine("FCFS RESULTS:");
             Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + averageTurnaroundTime + " <");
+            WriteResultsToFile();
+        }
+
+        /// <summary>
+        /// Funkcja zapisuje wyniki dzialania algorytmu do wygenerowanego pliku txt
+        /// </summary>
+        public void WriteResultsToFile()
+        {
+            FileInfo fileInfo = new FileInfo(@"C:\Users\artur\Desktop\wyniki symulacji\wynikiFCFS.txt");
+            StreamWriter streamWriter = fileInfo.CreateText();
+            streamWriter.WriteLine("FCFS average waiting times for each sequence:");
+            foreach(var time in AverageWaitingTimeForEachSequence())
+            {
+                streamWriter.Write("[" + time + "] ");
+
+            }
+            streamWriter.WriteLine();
+            streamWriter.WriteLine("FCFS average turnaround times for each sequence:");
+            foreach (var time in AverageTurnaroundTimeForEachSequence())
+            {
+                streamWriter.Write("[" + time + "] ");
+            }
+            streamWriter.Close();
 
         }
     }
