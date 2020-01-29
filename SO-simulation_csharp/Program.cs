@@ -22,8 +22,8 @@ namespace SO_simulation_csharp
             RoundRobinLCFS roundRobinLCFS = new RoundRobinLCFS(pu);
             fCFS.RunFCFS();
             fCFS.PrintFCFSResults();
-            //lCFS.RunLCFS();
-            //lCFS.PrintLCFSResults();
+            lCFS.RunLCFS();
+            lCFS.PrintLCFSResults();
             //sJF_NP.RunSJF_NP();
             //sJF_NP.PrintSJF_NPResults();
             //roundRobin.RunRoundRobinFCFS();

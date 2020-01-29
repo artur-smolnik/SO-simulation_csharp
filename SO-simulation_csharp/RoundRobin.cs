@@ -115,6 +115,9 @@ namespace SO_simulation_csharp
                 averageWaitingTime += listAverageWaiting.ElementAt(i);
                 averageTurnaroundTime += listAverageTurnaround.ElementAt(i);
             }
+            averageWaitingTime /= processUtilities.AmountOfProcessesLists;
+            averageTurnaroundTime /= processUtilities.AmountOfProcessesLists;
+
             Console.WriteLine("RoundRobin RESULTS:");
             Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + averageTurnaroundTime + " <");
 

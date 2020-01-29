@@ -8,23 +8,42 @@ namespace SO_simulation_csharp
 {
     class SJF_NP
     {
+        /// <summary>
+        /// Lista przechowujaca ciagi procesow
+        /// </summary>
         private List<List<Process>> LoadedProcesses;
+
+        /// <summary>
+        /// Obiekt klasy ProcessUtilities
+        /// </summary>
         private ProcessUtilities processUtilities;
+
+        /// <summary>
+        /// Zmienna wykorzystywana do mierzenia taktow zegarowych
+        /// </summary>
         private long cyclesNumber;
 
+        /// <summary>
+        /// Konstruktor wczytujacy ciagi procesow z zadanej sciezki, przechowywane w odpowiednim formacie XML
+        /// Inicjalizuje obiekt ProcesUtilities i ustawia cyclesNumber na 0
+        /// </summary>
+        /// <param name="processUtilities">Obiekt klasy ProcessUtilities</param>
         public SJF_NP(ProcessUtilities processUtilities)
         {
             LoadedProcesses = new List<List<Process>>();
             this.processUtilities = processUtilities;
-
+            cyclesNumber = 0;
             for (int i = 0; i < processUtilities.GetListOfListsOfProcesses().Count; i++)
             {
                 LoadedProcesses.Add(processUtilities.GetListOfListsOfProcesses().ElementAt(i));
             }
 
-            cyclesNumber = 0;
         }
 
+        /// <summary>
+        /// Funkcja sortuje procesy w ciagach w kolejnosci od procesu zajmujacego najmniej 
+        /// czasu procesora, do zajmujacych najwiecej czasu
+        /// </summary>
         public void SortLoadedProcesses()
         {
             List<List<Process>> tmpListOfLists = new List<List<Process>>();
@@ -39,6 +58,9 @@ namespace SO_simulation_csharp
             }
         }
 
+        /// <summary>
+        /// Funkcja odpowiada za bezposrednie przeprowadzenie szeregowania SJF
+        /// </summary>
         public void RunSJF_NP()
         {
             SortLoadedProcesses();
@@ -59,7 +81,11 @@ namespace SO_simulation_csharp
             }
         }
 
-        public List<long> AverageWaitingTimeForEachSequenceInMiliSec()
+        /// <summary>
+        /// Funkcja zwraca liste srednich czasow oczekiwania dla poszczegolnych ciagow procesow
+        /// </summary>
+        /// <returns>Lista srednich czasow oczekiwania</returns>
+        public List<long> AverageWaitingTimeForEachSequence()
         {
 
             long waitingTime = 0;
@@ -77,7 +103,11 @@ namespace SO_simulation_csharp
             return listOfWaitingTimes;
         }
 
-        public List<long> AverageTurnAroundTimeForEachSequenceInMiliSec()
+        /// <summary>
+        /// Funkcja zwraca liste srednich czasow przetwarzania dla poszczegolnych ciagow procesow
+        /// </summary>
+        /// <returns>Lista srednich czasow oczekiwania</returns>
+        public List<long> AverageTurnaroundTimeForEachSequence()
         {
             List<long> listOfTurnaroundTime = new List<long>();
             long turnaroundTime = 0;
@@ -93,18 +123,22 @@ namespace SO_simulation_csharp
             return listOfTurnaroundTime;
         }
 
+        /// <summary>
+        /// Funkcja wyswietla sredni czas oczekiwania i przetwarzania obliczony na podstawie
+        /// wszystkich zadanych ciagow procesow
+        /// </summary>
         public void PrintSJF_NPResults()
         {
-            List<long> listAverageWaiting = AverageWaitingTimeForEachSequenceInMiliSec();
-            List<long> listAverageTurnaround = AverageTurnAroundTimeForEachSequenceInMiliSec();
-
             long averageWaitingTime = 0;
             long averageTurnaroundTime = 0;
             for (int i = 0; i < processUtilities.AmountOfProcessesLists; i++)
             {
-                averageWaitingTime += listAverageWaiting.ElementAt(i);
-                averageTurnaroundTime += listAverageTurnaround.ElementAt(i);
+                averageWaitingTime += AverageWaitingTimeForEachSequence().ElementAt(i);
+                averageTurnaroundTime += AverageTurnaroundTimeForEachSequence().ElementAt(i);
             }
+            averageWaitingTime /= processUtilities.AmountOfProcessesLists;
+            averageTurnaroundTime /= processUtilities.AmountOfProcessesLists;
+
             Console.WriteLine("SJF RESULTS:");
             Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + averageTurnaroundTime + " <");
 

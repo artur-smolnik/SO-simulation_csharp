@@ -91,7 +91,7 @@ namespace SO_simulation_csharp
             }
         }
 
-        public List<long> AverageWaitingTimeForEachSequenceInMiliSec()
+        public List<long> AverageWaitingTimeForEachSequence()
         {
             long waitingTime = 0;
             List<long> listOfWaitingTimes = new List<long>();
@@ -108,7 +108,7 @@ namespace SO_simulation_csharp
             return listOfWaitingTimes;
         }
 
-        public List<long> AverageTurnAroundTimeForEachSequenceInMiliSec()
+        public List<long> AverageTurnaroundTimeForEachSequence()
         {
             List<long> listOfTurnaroundTime = new List<long>();
             long turnaroundTime = 0;
@@ -126,16 +126,16 @@ namespace SO_simulation_csharp
 
         public void PrintRoundRobinLCFSResults()
         {
-            List<long> listAverageWaiting = AverageWaitingTimeForEachSequenceInMiliSec();
-            List<long> listAverageTurnaround = AverageTurnAroundTimeForEachSequenceInMiliSec();
-
             long averageWaitingTime = 0;
             long averageTurnaroundTime = 0;
             for (int i = 0; i < processUtilities.AmountOfProcessesLists; i++)
             {
-                averageWaitingTime += listAverageWaiting.ElementAt(i);
-                averageTurnaroundTime += listAverageTurnaround.ElementAt(i);
+                averageWaitingTime += AverageWaitingTimeForEachSequence().ElementAt(i);
+                averageTurnaroundTime += AverageTurnaroundTimeForEachSequence().ElementAt(i);
             }
+            averageWaitingTime /= processUtilities.AmountOfProcessesLists;
+            averageTurnaroundTime /= processUtilities.AmountOfProcessesLists;
+
             Console.WriteLine("RoundRobinLCFS RESULTS:");
             Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + averageTurnaroundTime + " <");
 

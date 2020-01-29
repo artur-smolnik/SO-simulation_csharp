@@ -7,55 +7,71 @@ using System.Threading.Tasks;
 
 namespace SO_simulation_csharp
 {
+    /// <summary>
+    /// Klasa zajmuje sie przeprowadzeniem szeregowania FCFS 
+    /// oraz obliczeniem srednich czasow oczeekiwania i przetwarzania
+    /// </summary>
     class FCFS
     {
-        private List<List<Process>> DoneProcessesList;
-        private List<List<Process>> LoadedProcesses;
-        private ProcessUtilities processUtilities;
-        private long cyclesNumber;
-        private List<List<Process>> tmpchuj;
 
+        /// <summary>
+        /// Lista przechowujaca ciagi procesow
+        /// </summary>
+        private List<List<Process>> LoadedProcesses;
+
+        /// <summary>
+        /// Obiekt klasy ProcessUtilities
+        /// </summary>
+        private ProcessUtilities processUtilities;
+
+        /// <summary>
+        /// Zmienna wykorzystywana do mierzenia taktow zegarowych
+        /// </summary>
+        private long cyclesNumber;
+
+        /// <summary>
+        /// Konstruktor wczytujacy ciagi procesow z zadanej sciezki, przechowywane w odpowiednim formacie XML
+        /// Inicjalizuje obiekt ProcesUtilities i ustawia cyclesNumber na 0
+        /// </summary>
+        /// <param name="processUtilities">Obiekt klasy ProcessUtilities</param>
         public FCFS(ProcessUtilities processUtilities)
         {
-            DoneProcessesList = new List<List<Process>>();
-            this.processUtilities = processUtilities;
             LoadedProcesses = new List<List<Process>>();
-            tmpchuj = processUtilities.GetListOfListsOfProcesses();
-            foreach(var v in tmpchuj)
-            {
-                LoadedProcesses.Add(v);
-            }
-            //LoadedProcesses = processUtilities.GetListOfListsOfProcesses();
+            this.processUtilities = processUtilities;
             cyclesNumber = 0;
+            for (int i = 0; i < processUtilities.GetListOfListsOfProcesses().Count; i++)
+            {
+                LoadedProcesses.Add(processUtilities.GetListOfListsOfProcesses().ElementAt(i));
+            }
+
         }
 
+        /// <summary>
+        /// Funkcja odpowiada za bezposrednie przeprowadzenie szeregowania FCFS
+        /// </summary>
         public void RunFCFS()
         {
-            while (true)
+            foreach (List<Process> list in LoadedProcesses)
             {
-                if (LoadedProcesses.Count == 0) break;
-
-                foreach (Process process in LoadedProcesses.First())
+                foreach (Process process in list)
                 {
                     process.WaitingTime = cyclesNumber;
                     process.TurnaroundTime = (cyclesNumber + process.CpuBurstTime);
-
                     cyclesNumber += process.CpuBurstTime;
-
                 }
                 cyclesNumber = 0;
-                DoneProcessesList.Add(LoadedProcesses.First());
-                LoadedProcesses.RemoveAt(0);
             }
         }
 
-        public List<long> AverageWaitingTimeForEachSequenceInMiliSec()
+        /// <summary>
+        /// Funkcja zwraca liste srednich czasow oczekiwania dla poszczegolnych ciagow procesow
+        /// </summary>
+        /// <returns>Lista srednich czasow oczekiwania</returns>
+        public List<long> AverageWaitingTimeForEachSequence()
         {
-
             List<long> listOfWaitingTimes = new List<long>();
             long waitingTime = 0;
-
-            foreach (List<Process> list in DoneProcessesList)
+            foreach (List<Process> list in LoadedProcesses)
             {
                 foreach (Process process in list)
                 {
@@ -67,12 +83,16 @@ namespace SO_simulation_csharp
             return listOfWaitingTimes;
         }
 
-        public List<long> AverageTurnAroundTimeForEachSequenceInMiliSec()
+        /// <summary>
+        /// Funkcja zwraca liste srednich czasow przetwarzania dla poszczegolnych ciagow procesow
+        /// </summary>
+        /// <returns>Lista srednich czasow oczekiwania</returns>
+        public List<long> AverageTurnaroundTimeForEachSequence()
         {
             List<long> listOfTurnaroundTime = new List<long>();
             long turnaroundTime = 0;
 
-            foreach (List<Process> list in DoneProcessesList)
+            foreach (List<Process> list in LoadedProcesses)
             {
                 foreach (Process process in list)
                 {
@@ -84,21 +104,25 @@ namespace SO_simulation_csharp
             return listOfTurnaroundTime;
         }
 
+        /// <summary>
+        /// Funkcja wyswietla sredni czas oczekiwania i przetwarzania obliczony na podstawie
+        /// wszystkich zadanych ciagow procesow
+        /// </summary>
         public void PrintFCFSResults()
         {
-            List<long> listAverageWaiting = AverageWaitingTimeForEachSequenceInMiliSec();
-            List<long> listAverageTurnaround = AverageTurnAroundTimeForEachSequenceInMiliSec();
             long averageWaitingTime = 0;
             long averageTurnaroundTime = 0;
-
-            for(int i = 0; i < listAverageWaiting.Count; i++)
+            for (int i = 0; i < processUtilities.AmountOfProcessesLists; i++)
             {
-                averageWaitingTime += listAverageWaiting.ElementAt(i);
-                averageTurnaroundTime += listAverageTurnaround.ElementAt(i);
+                averageWaitingTime += AverageWaitingTimeForEachSequence().ElementAt(i);
+                averageTurnaroundTime += AverageTurnaroundTimeForEachSequence().ElementAt(i);
             }
-            Console.WriteLine("FCFS PREEMPTIVE RESULTS:");
+            averageWaitingTime /= processUtilities.AmountOfProcessesLists;
+            averageTurnaroundTime /= processUtilities.AmountOfProcessesLists;
+
+            Console.WriteLine("FCFS RESULTS:");
             Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + averageTurnaroundTime + " <");
-            
+
         }
     }
 }
