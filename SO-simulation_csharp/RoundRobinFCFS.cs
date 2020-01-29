@@ -36,36 +36,32 @@ namespace SO_simulation_csharp
         public void RunRoundRobinFCFS()
         {
             int switchList = 0;
-
-            while (true)
+            foreach (List<Process> list in LoadedProcesses)
             {
-                foreach (List<Process> list in LoadedProcesses)
+                while (switchList != processUtilities.AmountOfProcessesPerList)
                 {
-                    while (switchList != processUtilities.AmountOfProcessesPerList)
+                    foreach (Process process in list)
                     {
-                        foreach (Process process in list)
-                        {
-                            if (process.CpuBurstTime == 0) continue;
+                        if (process.CpuBurstTime == 0) continue;
 
-                            if (process.CpuBurstTime - quantum > 0)
-                            {
-                                process.CpuBurstTime -= quantum;
-                                cyclesNumber += quantum;
-                            }
-                            else
-                            {
-                                cyclesNumber += process.CpuBurstTime;
-                                process.CpuBurstTime = 0;
-                                process.TurnaroundTime = cyclesNumber;
-                                process.WaitingTime += cyclesNumber;
-                                switchList++;
-                            }
+                        if (process.CpuBurstTime - quantum > 0)
+                        {
+                            process.CpuBurstTime -= quantum;
+                            cyclesNumber += quantum;
+                        }
+                        else
+                        {
+                            cyclesNumber += process.CpuBurstTime;
+                            process.CpuBurstTime = 0;
+                            process.TurnaroundTime = cyclesNumber;
+                            process.WaitingTime += cyclesNumber;
+                            switchList++;
                         }
                     }
-                    switchList = 0;
-                    cyclesNumber = 0;
                 }
-                break;
+                switchList = 0;
+                cyclesNumber = 0;
+
             }
         }
 

@@ -20,18 +20,16 @@ namespace SO_simulation_csharp
             SJF_NP sJF_NP = new SJF_NP(pu);
             RoundRobinFCFS roundRobinFCFS = new RoundRobinFCFS(pu);
             RoundRobinLCFS roundRobinLCFS = new RoundRobinLCFS(pu);
-            fCFS.RunFCFS();
-            fCFS.PrintFCFSResults();
-            lCFS.RunLCFS();
-            lCFS.PrintLCFSResults();
+            //fCFS.RunFCFS();
+            //fCFS.PrintFCFSResults();
+            //lCFS.RunLCFS();
+            //lCFS.PrintLCFSResults();
             //sJF_NP.RunSJF_NP();
             //sJF_NP.PrintSJF_NPResults();
-            //roundRobin.RunRoundRobinFCFS();
-            //roundRobin.PrintSJF_NPResults();
-            //    roundRobinFCFS.RunRoundRobinFCFS();
-            //    roundRobinFCFS.PrintRoundRobinFCFSResults();
-            //    roundRobinLCFS.RunRoundRobinLCFS();
-            //    roundRobinLCFS.PrintRoundRobinLCFSResults();
+            roundRobinFCFS.RunRoundRobinFCFS();
+            roundRobinFCFS.PrintRoundRobinFCFSResults();
+            roundRobinLCFS.RunRoundRobinLCFS();
+            roundRobinLCFS.PrintRoundRobinLCFSResults();
         }
     }
 }

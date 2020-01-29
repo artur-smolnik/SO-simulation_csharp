@@ -47,47 +47,39 @@ namespace SO_simulation_csharp
             }
         }
 
-       
+
         public void RunRoundRobinLCFS()
         {
             SortLoadedProcesses();
             int switchList = 0;
 
-            while (true)
+            foreach (List<Process> list in LoadedProcesses)
             {
-                //if (LoadedProcesses.Count == 0) break;
 
-                foreach (List<Process> list in LoadedProcesses)
+                while (switchList != processUtilities.AmountOfProcessesPerList)
                 {
-                    while (switchList != processUtilities.AmountOfProcessesPerList)
+                    foreach (Process process in list)
                     {
-                        foreach (Process process in list)
-                        {
-                            if (process.CpuBurstTime == 0) continue;
+                        if (process.CpuBurstTime == 0) continue;
 
-                            if (process.CpuBurstTime - quantum > 0)
-                            {
-                                process.CpuBurstTime -= quantum;
-                                cyclesNumber += quantum;
-                                //Console.WriteLine(process.CpuBurstTime);
-                            }
-                            else
-                            {
-                                cyclesNumber += process.CpuBurstTime;
-                                process.CpuBurstTime = 0;
-                                process.TurnaroundTime = cyclesNumber;
-                                process.WaitingTime += cyclesNumber;
-                                switchList++;
-                                //Console.Write(process.CpuBurstTime+ " ");
-                            }
+                        if (process.CpuBurstTime - quantum > 0)
+                        {
+                            process.CpuBurstTime -= quantum;
+                            cyclesNumber += quantum;
+                        }
+                        else
+                        {
+                            cyclesNumber += process.CpuBurstTime;
+                            process.CpuBurstTime = 0;
+                            process.TurnaroundTime = cyclesNumber;
+                            process.WaitingTime += cyclesNumber;
+                            switchList++;
                         }
                     }
-                    switchList = 0;
-                    cyclesNumber = 0;
-                    Console.WriteLine("run lcfs 1");
-
+                    Console.WriteLine("chuj");
                 }
-                break;
+                switchList = 0;
+                cyclesNumber = 0;
             }
         }
 
