@@ -30,7 +30,7 @@ namespace SO_simulation_csharp
         /// Inicjalizuje obiekt ProcesUtilities i ustawia cyclesNumber na 0
         /// </summary>
         /// <param name="processUtilities">Obiekt klasy ProcessUtilities</param>
-        public SJF_NP(ProcessUtilities processUtilities)
+        public SJF(ProcessUtilities processUtilities)
         {
             LoadedProcesses = new List<List<Process>>(processUtilities.LoadManyListOfProcessesFromSerializedXMLs());
             this.processUtilities = processUtilities;
