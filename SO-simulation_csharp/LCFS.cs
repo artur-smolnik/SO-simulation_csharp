@@ -34,13 +34,10 @@ namespace SO_simulation_csharp
         /// <param name="processUtilities">Obiekt klasy ProcessUtilities</param>
         public LCFS(ProcessUtilities processUtilities)
         {
-            LoadedProcesses = new List<List<Process>>();
+            LoadedProcesses = new List<List<Process>>(processUtilities.LoadManyListOfProcessesFromSerializedXMLs());
             this.processUtilities = processUtilities;
             cyclesNumber = 0;
-            for (int i = 0; i < processUtilities.GetListOfListsOfProcesses().Count; i++)
-            {
-                LoadedProcesses.Add(processUtilities.GetListOfListsOfProcesses().ElementAt(i));
-            }
+            
         }
 
         /// <summary>

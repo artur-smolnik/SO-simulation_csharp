@@ -23,10 +23,8 @@ namespace SO_simulation_csharp
         {
             AmountOfProcessesPerList = 0;
             AmountOfProcessesLists = 0;
-            SerializeManyListsOfProcessesAtOnce(10, 100, 10, 1000, @"C:\Users\artur\Desktop\so sim\");
-            listOfListsOfProcesses = LoadManyListOfProcessesFromSerializedXMLs(pathToDirectoryWithXMLFiles);
-            //Console.WriteLine("listOfListsOfProcesses= " + listOfListsOfProcesses.Count);
-
+            SerializeManyListsOfProcessesAtOnce(2, 10, 10, 100, @"C:\Users\artur\Desktop\so sim\");
+            listOfListsOfProcesses = LoadManyListOfProcessesFromSerializedXMLs();
         }
 
         public List<Process> CreateListOfProcesses(int processesAmount, int cpuBurstMinDuration, int cpuBurstMaxDuration)
@@ -68,8 +66,9 @@ namespace SO_simulation_csharp
             }
         }
 
-        public List<List<Process>> LoadManyListOfProcessesFromSerializedXMLs(string pathToDirectoryWithXMLFiles)
+        public List<List<Process>> LoadManyListOfProcessesFromSerializedXMLs()
         {
+            string pathToDirectoryWithXMLFiles = @"C:\Users\artur\Desktop\so sim\";
             List<List<Process>> listOfListsOfProcesses = new List<List<Process>>();
 
             string[] folderContent = Directory.GetFiles(pathToDirectoryWithXMLFiles);

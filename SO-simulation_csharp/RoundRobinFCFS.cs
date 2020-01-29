@@ -6,24 +6,45 @@ using System.Threading.Tasks;
 
 namespace SO_simulation_csharp
 {
+    /// <summary>
+    /// Klasa zajmuje sie przeprowadzeniem szeregowania RoundRobinFCFS 
+    /// oraz obliczeniem srednich czasow oczekiwania i przetwarzania
+    /// </summary>
     class RoundRobinFCFS
     {
+        /// <summary>
+        /// Lista przechowujaca ciagi procesow
+        /// </summary>
         private List<List<Process>> LoadedProcesses;
+
+        /// <summary>
+        /// Obiekt klasy ProcessUtilities
+        /// </summary>
         private ProcessUtilities processUtilities;
+
+        /// <summary>
+        /// Zmienna wykorzystywana do mierzenia taktow zegarowych
+        /// </summary>
         private long cyclesNumber;
+
+        /// <summary>
+        /// Kwant czasu(ilosc jednostek/taktow zegarowych) poswiecany cyklicznie kazdemu procesowi
+        /// </summary>
         private long quantum;
 
+        /// <summary>
+        /// Konstruktor wczytujacy ciagi procesow z zadanej sciezki do zmiennej LoadedProcesses, 
+        /// przechowywane w odpowiednim formacie XML
+        /// Inicjalizuje obiekt ProcesUtilities i ustawia cyclesNumber na 0, kwant czas ustawiony na 10
+        /// </summary>
+        /// <param name="processUtilities">Obiekt klasy ProcessUtilities</param>
         public RoundRobinFCFS(ProcessUtilities processUtilities)
         {
-            LoadedProcesses = new List<List<Process>>();
+            LoadedProcesses = new List<List<Process>>(processUtilities.LoadManyListOfProcessesFromSerializedXMLs());
             this.processUtilities = processUtilities;
             quantum = 10;
             cyclesNumber = 0;
-
-            for (int i = 0; i < processUtilities.GetListOfListsOfProcesses().Count; i++)
-            {
-                LoadedProcesses.Add(processUtilities.GetListOfListsOfProcesses().ElementAt(i));
-            }
+                        
             foreach (List<Process> list in LoadedProcesses)
             {
                 foreach (Process process in list)
@@ -33,6 +54,9 @@ namespace SO_simulation_csharp
             }
         }
 
+        /// <summary>
+        /// Funkcja odpowiada za bezposrednie przeprowadzenie szeregowania RoundRobinFCFS
+        /// </summary>
         public void RunRoundRobinFCFS()
         {
             int switchList = 0;
@@ -61,11 +85,13 @@ namespace SO_simulation_csharp
                 }
                 switchList = 0;
                 cyclesNumber = 0;
-
             }
         }
 
-
+        /// <summary>
+        /// Funkcja zwraca liste srednich czasow oczekiwania dla poszczegolnych ciagow procesow
+        /// </summary>
+        /// <returns>Lista srednich czasow oczekiwania</returns>
         public List<long> AverageWaitingTimeForEachSequence()
         {
             long waitingTime = 0;
@@ -83,6 +109,10 @@ namespace SO_simulation_csharp
             return listOfWaitingTimes;
         }
 
+        /// <summary>
+        /// Funkcja zwraca liste srednich czasow przetwarzania dla poszczegolnych ciagow procesow
+        /// </summary>
+        /// <returns>Lista srednich czasow oczekiwania</returns>
         public List<long> AverageTurnaroundTimeForEachSequence()
         {
             List<long> listOfTurnaroundTime = new List<long>();
@@ -99,6 +129,10 @@ namespace SO_simulation_csharp
             return listOfTurnaroundTime;
         }
 
+        /// <summary>
+        /// Funkcja wyswietla sredni czas oczekiwania i przetwarzania obliczony na podstawie
+        /// wszystkich zadanych ciagow procesow
+        /// </summary>
         public void PrintRoundRobinFCFSResults()
         {
             long averageWaitingTime = 0;
@@ -113,7 +147,6 @@ namespace SO_simulation_csharp
 
             Console.WriteLine("RoundRobinFCFS RESULTS:");
             Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + averageTurnaroundTime + " <");
-
         }
 
     }
