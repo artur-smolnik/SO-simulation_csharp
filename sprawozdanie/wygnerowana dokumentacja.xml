@@ -1,0 +1,387 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SO-simulation_csharp</name>
+    </assembly>
+    <members>
+        <member name="T:SO_simulation_csharp.FCFS">
+            <summary>
+            Klasa zajmuje sie przeprowadzeniem szeregowania FCFS 
+            oraz obliczeniem srednich czasow oczeekiwania i przetwarzania
+            </summary>
+        </member>
+        <member name="F:SO_simulation_csharp.FCFS.LoadedProcesses">
+            <summary>
+            Lista przechowujaca ciagi procesow
+            </summary>
+        </member>
+        <member name="F:SO_simulation_csharp.FCFS.processUtilities">
+            <summary>
+            Obiekt klasy ProcessUtilities
+            </summary>
+        </member>
+        <member name="F:SO_simulation_csharp.FCFS.cyclesNumber">
+            <summary>
+            Zmienna wykorzystywana do mierzenia taktow zegarowych
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.FCFS.#ctor(SO_simulation_csharp.ProcessUtilities)">
+            <summary>
+            Konstruktor wczytujacy ciagi procesow z zadanej sciezki, przechowywane w odpowiednim formacie XML
+            Inicjalizuje obiekt ProcesUtilities i ustawia cyclesNumber na 0
+            </summary>
+            <param name="processUtilities">Obiekt klasy ProcessUtilities</param>
+        </member>
+        <member name="M:SO_simulation_csharp.FCFS.RunFCFS">
+            <summary>
+            Funkcja odpowiada za bezposrednie przeprowadzenie szeregowania FCFS
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.FCFS.AverageWaitingTimeForEachSequence">
+            <summary>
+            Funkcja zwraca liste srednich czasow oczekiwania dla poszczegolnych ciagow procesow
+            </summary>
+            <returns>Lista srednich czasow oczekiwania</returns>
+        </member>
+        <member name="M:SO_simulation_csharp.FCFS.AverageTurnaroundTimeForEachSequence">
+            <summary>
+            Funkcja zwraca liste srednich czasow przetwarzania dla poszczegolnych ciagow procesow
+            </summary>
+            <returns>Lista srednich czasow oczekiwania</returns>
+        </member>
+        <member name="M:SO_simulation_csharp.FCFS.PrintFCFSResults">
+            <summary>
+            Funkcja wyswietla sredni czas oczekiwania i przetwarzania obliczony na podstawie
+            wszystkich zadanych ciagow procesow
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.FCFS.WriteResultsToFile">
+            <summary>
+            Funkcja zapisuje wyniki dzialania algorytmu do wygenerowanego pliku txt
+            </summary>
+        </member>
+        <member name="T:SO_simulation_csharp.LCFS">
+            <summary>
+            Klasa zajmuje sie przeprowadzeniem szeregowania LCFS 
+            oraz obliczeniem srednich czasow oczeekiwania i przetwarzania
+            </summary>
+        </member>
+        <member name="F:SO_simulation_csharp.LCFS.LoadedProcesses">
+            <summary>
+            Lista przechowujaca ciagi procesow
+            </summary>
+        </member>
+        <member name="F:SO_simulation_csharp.LCFS.processUtilities">
+            <summary>
+            Obiekt klasy ProcessUtilities
+            </summary>
+        </member>
+        <member name="F:SO_simulation_csharp.LCFS.cyclesNumber">
+            <summary>
+            Zmienna wykorzystywana do mierzenia taktow zegarowych
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.LCFS.#ctor(SO_simulation_csharp.ProcessUtilities)">
+            <summary>
+            Konstruktor wczytujacy ciagi procesow z zadanej sciezki, przechowywane w odpowiednim formacie XML
+            Inicjalizuje obiekt ProcesUtilities i ustawia cyclesNumber na 0
+            </summary>
+            <param name="processUtilities">Obiekt klasy ProcessUtilities</param>
+        </member>
+        <member name="M:SO_simulation_csharp.LCFS.RunLCFS">
+            <summary>
+            Funkcja odpowiada za bezposrednie przeprowadzenie szeregowania LCFS
+            Funkcja przeprowadza szeregowanie jednoczesnie odwracajac kolejnosc
+            przybywania procesow, odwrotnie do FCFS
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.LCFS.AverageWaitingTimeForEachSequence">
+            <summary>
+            Funkcja zwraca liste srednich czasow oczekiwania dla poszczegolnych ciagow procesow
+            </summary>
+            <returns>Lista srednich czasow oczekiwania</returns>
+        </member>
+        <member name="M:SO_simulation_csharp.LCFS.AverageTurnaroundTimeForEachSequence">
+            <summary>
+            Funkcja zwraca liste srednich czasow przetwarzania dla poszczegolnych ciagow procesow
+            </summary>
+            <returns>Lista srednich czasow oczekiwania</returns>
+        </member>
+        <member name="M:SO_simulation_csharp.LCFS.PrintLCFSResults">
+            <summary>
+            Funkcja wyswietla sredni czas oczekiwania i przetwarzania obliczony na podstawie
+            wszystkich zadanych ciagow procesow
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.LCFS.WriteResultsToFile">
+            <summary>
+            Funkcja zapisuje wyniki dzialania algorytmu do wygenerowanego pliku txt
+            </summary>
+        </member>
+        <member name="P:SO_simulation_csharp.Process.CpuBurstTime">
+            <summary>
+            Czas jaki procesor musi poswiecic na wykonanie zadania
+            </summary>
+        </member>
+        <member name="P:SO_simulation_csharp.Process.WaitingTime">
+            <summary>
+            Czas jaki proces spedza na oczekiwaniu na przydzial czasu procesora
+            </summary>
+        </member>
+        <member name="P:SO_simulation_csharp.Process.TurnaroundTime">
+            <summary>
+            Calkowity czas przetwarzania procesu
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.Process.#ctor">
+            <summary>
+            Pusty konstruktor klasy Process
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.Process.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            Konstruktor ustawiajacy podstawowe wartosci cech procesu
+            </summary>
+            <param name="cpuBurstTime">Czas jaki procesor musi poswiecic na wykonanie zadania</param>
+            <param name="waitingTime">Czas jaki proces spedza na oczekiwaniu na przydzial czasu procesora</param>
+            <param name="turnaroundTime">Calkowity czas przetwarzania procesu</param>
+        </member>
+        <member name="P:SO_simulation_csharp.ProcessUtilities.AmountOfProcessesPerList">
+            <summary>
+            Properta zawiera liczbe procesow obecnych w pojedynczym ciagu
+            </summary>
+        </member>
+        <member name="P:SO_simulation_csharp.ProcessUtilities.AmountOfProcessesLists">
+            <summary>
+            Properta zawiera liczbe ciagow procesow
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.ProcessUtilities.#ctor(System.String)">
+            <summary>
+            Konstruktor inicjalizujacy obiekt klasy ProcessUtilities
+            </summary>
+            <param name="pathToDirectoryWithXMLFiles">sciezka do archiwum zawierajacego pliki XML z procesami</param>
+        </member>
+        <member name="M:SO_simulation_csharp.ProcessUtilities.CreateListOfProcesses(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Funkcja tworzy jedna liste procesow o zadanych parametrach
+            </summary>
+            <param name="processesAmount">Ilosc procesow w ciagu</param>
+            <param name="cpuBurstMinDuration">Minimalna wartosc Cpu Burst Time</param>
+            <param name="cpuBurstMaxDuration">Maksymalna wartosc Cpu Burst Time</param>
+            <returns>Lista procesow</returns>
+        </member>
+        <member name="M:SO_simulation_csharp.ProcessUtilities.SerializeToXMLFile(System.Collections.Generic.List{SO_simulation_csharp.Process},System.String)">
+            <summary>
+            Funkcja zapisuje podana w parametrze liste procesow do pliku XML
+            </summary>
+            <param name="list">Lista procesow do zapisania do pliku XML</param>
+            <param name="pathToXMLFile">Sciezka, gdzie plik XML ma zostac utworzony</param>
+        </member>
+        <member name="M:SO_simulation_csharp.ProcessUtilities.LoadProcessesFromSerializedXML(System.String)">
+            <summary>
+            Funkcja wczytuje liste procesow z pliku XML i zapisuje ja listy, ktora jest potem zwrocona
+            </summary>
+            <param name="pathToXmlFile">Sciezka do pliku XML z zapisanymi procesami</param>
+            <returns>Lista wczytanych procesow</returns>
+        </member>
+        <member name="M:SO_simulation_csharp.ProcessUtilities.SerializeManyListsOfProcessesAtOnce(System.Int32,System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            Funkcja tworzy i jednoczesnie zapisuje do plikow XML wiele list procesow
+            </summary>
+            <param name="amountOfProcessesLists">Liczba ciagow procesow</param>
+            <param name="amountOfProcessesPerList">Liczba procesow w pojedynczym ciagu</param>
+            <param name="cpuBurstMinDuration">Minimalna wartosc dla CBT</param>
+            <param name="cpuBurstMaxDuration">Maksymalna wartosc dla CBT</param>
+            <param name="pathToDirectoryForXMLFile">Sciezka do katologu, gdzie beda zapisane ciagi procesow</param>
+        </member>
+        <member name="M:SO_simulation_csharp.ProcessUtilities.LoadManyListOfProcessesFromSerializedXMLs">
+            <summary>
+            Funkcja wczytuje wiele ciagow procesow z wielu plikow XML i zapisuje je do listy list
+            </summary>
+            <returns>Lista list wczytanych procesow</returns>
+        </member>
+        <member name="T:SO_simulation_csharp.RoundRobinFCFS">
+            <summary>
+            Klasa zajmuje sie przeprowadzeniem szeregowania RoundRobinFCFS 
+            oraz obliczeniem srednich czasow oczekiwania i przetwarzania
+            </summary>
+        </member>
+        <member name="F:SO_simulation_csharp.RoundRobinFCFS.LoadedProcesses">
+            <summary>
+            Lista przechowujaca ciagi procesow
+            </summary>
+        </member>
+        <member name="F:SO_simulation_csharp.RoundRobinFCFS.processUtilities">
+            <summary>
+            Obiekt klasy ProcessUtilities
+            </summary>
+        </member>
+        <member name="F:SO_simulation_csharp.RoundRobinFCFS.cyclesNumber">
+            <summary>
+            Zmienna wykorzystywana do mierzenia taktow zegarowych
+            </summary>
+        </member>
+        <member name="F:SO_simulation_csharp.RoundRobinFCFS.quantum">
+            <summary>
+            Kwant czasu(ilosc jednostek/taktow zegarowych) poswiecany cyklicznie kazdemu procesowi
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.RoundRobinFCFS.#ctor(SO_simulation_csharp.ProcessUtilities,System.Double)">
+            <summary>
+            Konstruktor wczytujacy ciagi procesow z zadanej sciezki do zmiennej LoadedProcesses, 
+            przechowywane w odpowiednim formacie XML
+            Inicjalizuje obiekt ProcesUtilities i ustawia cyclesNumber na 0, kwant czas ustawiony na 10
+            </summary>
+            <param name="processUtilities">Obiekt klasy ProcessUtilities</param>
+        </member>
+        <member name="M:SO_simulation_csharp.RoundRobinFCFS.RunRoundRobinFCFS">
+            <summary>
+            Funkcja odpowiada za bezposrednie przeprowadzenie szeregowania RoundRobinFCFS
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.RoundRobinFCFS.AverageWaitingTimeForEachSequence">
+            <summary>
+            Funkcja zwraca liste srednich czasow oczekiwania dla poszczegolnych ciagow procesow
+            </summary>
+            <returns>Lista srednich czasow oczekiwania</returns>
+        </member>
+        <member name="M:SO_simulation_csharp.RoundRobinFCFS.AverageTurnaroundTimeForEachSequence">
+            <summary>
+            Funkcja zwraca liste srednich czasow przetwarzania dla poszczegolnych ciagow procesow
+            </summary>
+            <returns>Lista srednich czasow oczekiwania</returns>
+        </member>
+        <member name="M:SO_simulation_csharp.RoundRobinFCFS.PrintRoundRobinFCFSResults">
+            <summary>
+            Funkcja wyswietla sredni czas oczekiwania i przetwarzania obliczony na podstawie
+            wszystkich zadanych ciagow procesow
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.RoundRobinFCFS.WriteResultsToFile">
+            <summary>
+            Funkcja zapisuje wyniki dzialania algorytmu do wygenerowanego pliku txt
+            </summary>
+        </member>
+        <member name="T:SO_simulation_csharp.RoundRobinLCFS">
+            <summary>
+            Klasa zajmuje sie przeprowadzeniem szeregowania RoundRobinLCFS 
+            oraz obliczeniem srednich czasow oczekiwania i przetwarzania
+            </summary>
+        </member>
+        <member name="F:SO_simulation_csharp.RoundRobinLCFS.LoadedProcesses">
+            <summary>
+            Lista przechowujaca ciagi procesow
+            </summary>
+        </member>
+        <member name="F:SO_simulation_csharp.RoundRobinLCFS.processUtilities">
+            <summary>
+            Obiekt klasy ProcessUtilities
+            </summary>
+        </member>
+        <member name="F:SO_simulation_csharp.RoundRobinLCFS.cyclesNumber">
+            <summary>
+            Zmienna wykorzystywana do mierzenia taktow zegarowych
+            </summary>
+        </member>
+        <member name="F:SO_simulation_csharp.RoundRobinLCFS.quantum">
+            <summary>
+            Kwant czasu(ilosc jednostek/taktow zegarowych) poswiecany cyklicznie kazdemu procesowi
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.RoundRobinLCFS.#ctor(SO_simulation_csharp.ProcessUtilities,System.Double)">
+            <summary>
+            Konstruktor wczytujacy ciagi procesow z zadanej sciezki do zmiennej LoadedProcesses, 
+            przechowywane w odpowiednim formacie XML
+            Inicjalizuje obiekt ProcesUtilities i ustawia cyclesNumber na 0, kwant czas ustawiony na 10
+            </summary>
+            <param name="processUtilities">Obiekt klasy ProcessUtilities</param>
+        </member>
+        <member name="M:SO_simulation_csharp.RoundRobinLCFS.RunRoundRobinLCFS">
+            <summary>
+            Funkcja odpowiada za bezposrednie przeprowadzenie szeregowania RoundRobinLCFS
+            Funkcja przeprowadza szeregowanie jednoczesnie odwracajac kolejnosc
+            przybywania procesow, odwrotnie do RoundRobinFCFS
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.RoundRobinLCFS.AverageWaitingTimeForEachSequence">
+            <summary>
+            Funkcja zwraca liste srednich czasow oczekiwania dla poszczegolnych ciagow procesow
+            </summary>
+            <returns>Lista srednich czasow oczekiwania</returns>
+        </member>
+        <member name="M:SO_simulation_csharp.RoundRobinLCFS.AverageTurnaroundTimeForEachSequence">
+            <summary>
+            Funkcja zwraca liste srednich czasow przetwarzania dla poszczegolnych ciagow procesow
+            </summary>
+            <returns>Lista srednich czasow oczekiwania</returns>
+        </member>
+        <member name="M:SO_simulation_csharp.RoundRobinLCFS.PrintRoundRobinLCFSResults">
+            <summary>
+            Funkcja wyswietla sredni czas oczekiwania i przetwarzania obliczony na podstawie
+            wszystkich zadanych ciagow procesow
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.RoundRobinLCFS.WriteResultsToFile">
+            <summary>
+            Funkcja zapisuje wyniki dzialania algorytmu do wygenerowanego pliku txt
+            </summary>
+        </member>
+        <member name="F:SO_simulation_csharp.SJF.LoadedProcesses">
+            <summary>
+            Lista przechowujaca ciagi procesow
+            </summary>
+        </member>
+        <member name="F:SO_simulation_csharp.SJF.processUtilities">
+            <summary>
+            Obiekt klasy ProcessUtilities
+            </summary>
+        </member>
+        <member name="F:SO_simulation_csharp.SJF.cyclesNumber">
+            <summary>
+            Zmienna wykorzystywana do mierzenia taktow zegarowych
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.SJF.#ctor(SO_simulation_csharp.ProcessUtilities)">
+            <summary>
+            Konstruktor wczytujacy ciagi procesow z zadanej sciezki, przechowywane w odpowiednim formacie XML
+            Inicjalizuje obiekt ProcesUtilities i ustawia cyclesNumber na 0
+            </summary>
+            <param name="processUtilities">Obiekt klasy ProcessUtilities</param>
+        </member>
+        <member name="M:SO_simulation_csharp.SJF.SortLoadedProcesses">
+            <summary>
+            Funkcja sortuje procesy w ciagach w kolejnosci od procesu zajmujacego najmniej 
+            czasu procesora, do zajmujacych najwiecej czasu
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.SJF.RunSJF_NP">
+            <summary>
+            Funkcja odpowiada za bezposrednie przeprowadzenie szeregowania SJF
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.SJF.AverageWaitingTimeForEachSequence">
+            <summary>
+            Funkcja zwraca liste srednich czasow oczekiwania dla poszczegolnych ciagow procesow
+            </summary>
+            <returns>Lista srednich czasow oczekiwania</returns>
+        </member>
+        <member name="M:SO_simulation_csharp.SJF.AverageTurnaroundTimeForEachSequence">
+            <summary>
+            Funkcja zwraca liste srednich czasow przetwarzania dla poszczegolnych ciagow procesow
+            </summary>
+            <returns>Lista srednich czasow oczekiwania</returns>
+        </member>
+        <member name="M:SO_simulation_csharp.SJF.PrintSJF_NPResults">
+            <summary>
+            Funkcja wyswietla sredni czas oczekiwania i przetwarzania obliczony na podstawie
+            wszystkich zadanych ciagow procesow
+            </summary>
+        </member>
+        <member name="M:SO_simulation_csharp.SJF.WriteResultsToFile">
+            <summary>
+            Funkcja zapisuje wyniki dzialania algorytmu do wygenerowanego pliku txt
+            </summary>
+        </member>
+    </members>
+</doc>

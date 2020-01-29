@@ -148,7 +148,7 @@ namespace SO_simulation_csharp
             averageWaitingTime /= processUtilities.AmountOfProcessesLists;
             averageTurnaroundTime /= processUtilities.AmountOfProcessesLists;
 
-            Console.WriteLine("RoundRobinLCFS RESULTS:");
+            Console.WriteLine("RoundRobinLCFS with quantum = "+quantum+"RESULTS:");
             Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + averageTurnaroundTime + " <");
             WriteResultsToFile();
         }
