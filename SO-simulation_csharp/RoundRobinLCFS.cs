@@ -6,30 +6,38 @@ using System.Threading.Tasks;
 
 namespace SO_simulation_csharp
 {
-    class SJF_NP
+    class RoundRobinLCFS
     {
         private List<List<Process>> LoadedProcesses;
         private ProcessUtilities processUtilities;
         private long cyclesNumber;
+        private long quantum;
 
-        public SJF_NP(ProcessUtilities processUtilities)
+        public RoundRobinLCFS(ProcessUtilities processUtilities)
         {
             LoadedProcesses = new List<List<Process>>();
             this.processUtilities = processUtilities;
+            quantum = 10;
+            cyclesNumber = 0;
 
             for (int i = 0; i < processUtilities.GetListOfListsOfProcesses().Count; i++)
             {
                 LoadedProcesses.Add(processUtilities.GetListOfListsOfProcesses().ElementAt(i));
             }
-
-            cyclesNumber = 0;
+            foreach (List<Process> list in LoadedProcesses)
+            {
+                foreach (Process process in list)
+                {
+                    process.WaitingTime -= process.CpuBurstTime;
+                }
+            }
         }
 
         public void SortLoadedProcesses()
         {
             List<List<Process>> tmpListOfLists = new List<List<Process>>();
-            foreach ( List<Process> loadedProcesses in LoadedProcesses)
-            { 
+            foreach (List<Process> loadedProcesses in LoadedProcesses)
+            {
                 tmpListOfLists.Add(loadedProcesses.OrderBy(process => process.CpuBurstTime).ToList());
             }
             LoadedProcesses.Clear();
@@ -39,21 +47,45 @@ namespace SO_simulation_csharp
             }
         }
 
-        public void RunSJF_NP()
+       
+        public void RunRoundRobinLCFS()
         {
             SortLoadedProcesses();
+            int switchList = 0;
+
             while (true)
             {
                 //if (LoadedProcesses.Count == 0) break;
-                foreach(List<Process> list in LoadedProcesses)
+
+                foreach (List<Process> list in LoadedProcesses)
                 {
-                    foreach(Process process in list)
+                    while (switchList != processUtilities.AmountOfProcessesPerList)
                     {
-                        process.WaitingTime = cyclesNumber;
-                        process.TurnaroundTime = (cyclesNumber + process.CpuBurstTime);
-                        cyclesNumber += process.CpuBurstTime;
+                        foreach (Process process in list)
+                        {
+                            if (process.CpuBurstTime == 0) continue;
+
+                            if (process.CpuBurstTime - quantum > 0)
+                            {
+                                process.CpuBurstTime -= quantum;
+                                cyclesNumber += quantum;
+                                //Console.WriteLine(process.CpuBurstTime);
+                            }
+                            else
+                            {
+                                cyclesNumber += process.CpuBurstTime;
+                                process.CpuBurstTime = 0;
+                                process.TurnaroundTime = cyclesNumber;
+                                process.WaitingTime += cyclesNumber;
+                                switchList++;
+                                //Console.Write(process.CpuBurstTime+ " ");
+                            }
+                        }
                     }
+                    switchList = 0;
                     cyclesNumber = 0;
+                    Console.WriteLine("run lcfs 1");
+
                 }
                 break;
             }
@@ -61,7 +93,6 @@ namespace SO_simulation_csharp
 
         public List<long> AverageWaitingTimeForEachSequenceInMiliSec()
         {
-
             long waitingTime = 0;
             List<long> listOfWaitingTimes = new List<long>();
 
@@ -93,7 +124,7 @@ namespace SO_simulation_csharp
             return listOfTurnaroundTime;
         }
 
-        public void PrintSJF_NPResults()
+        public void PrintRoundRobinLCFSResults()
         {
             List<long> listAverageWaiting = AverageWaitingTimeForEachSequenceInMiliSec();
             List<long> listAverageTurnaround = AverageTurnAroundTimeForEachSequenceInMiliSec();
@@ -105,9 +136,11 @@ namespace SO_simulation_csharp
                 averageWaitingTime += listAverageWaiting.ElementAt(i);
                 averageTurnaroundTime += listAverageTurnaround.ElementAt(i);
             }
-            Console.WriteLine("SJF RESULTS:");
+            Console.WriteLine("RoundRobinLCFS RESULTS:");
             Console.WriteLine("Average Waiting Time > " + averageWaitingTime + " <, Average TurnaroundTime > " + averageTurnaroundTime + " <");
 
         }
+
+
     }
 }

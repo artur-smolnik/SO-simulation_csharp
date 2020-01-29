@@ -23,7 +23,7 @@ namespace SO_simulation_csharp
         {
             AmountOfProcessesPerList = 0;
             AmountOfProcessesLists = 0;
-            SerializeManyListsOfProcessesAtOnce(10, 100, 10, 100, @"C:\Users\artur\Desktop\so sim\");
+            SerializeManyListsOfProcessesAtOnce(10, 100, 10, 1000, @"C:\Users\artur\Desktop\so sim\");
             listOfListsOfProcesses = LoadManyListOfProcessesFromSerializedXMLs(pathToDirectoryWithXMLFiles);
             //Console.WriteLine("listOfListsOfProcesses= " + listOfListsOfProcesses.Count);
 
@@ -35,7 +35,7 @@ namespace SO_simulation_csharp
             Random rnd = new Random();
             for (int i = 0; i < processesAmount; i++)
             {
-                listOfProcesses.Add(new Process(rnd.Next(cpuBurstMinDuration, cpuBurstMaxDuration), 1));
+                listOfProcesses.Add(new Process(rnd.Next(cpuBurstMinDuration, cpuBurstMaxDuration), 0));
                 for (int y = 0; y < 1000000; y++) ; //delay for rng
             }
             return listOfProcesses;
