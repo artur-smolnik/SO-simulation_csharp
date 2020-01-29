@@ -9,30 +9,47 @@ namespace SO_simulation_csharp
 {
     public class Process
     {
-        long cpuBurstTime;
-        long turnAroundTime;
-        long waitingTime;
 
+        double cpuBurstTime;
+        double turnAroundTime;
+        double waitingTime;
+
+        /// <summary>
+        /// Czas jaki procesor musi poswiecic na wykonanie zadania
+        /// </summary>
+        public double CpuBurstTime { get => cpuBurstTime; set => cpuBurstTime = value; }
+
+        /// <summary>
+        /// Czas jaki proces spedza na oczekiwaniu na przydzial czasu procesora
+        /// </summary>
+        public double WaitingTime { get => waitingTime; set => waitingTime = value; }
+
+        /// <summary>
+        /// Calkowity czas przetwarzania procesu
+        /// </summary>
+        public double TurnaroundTime { get => turnAroundTime; set => turnAroundTime = value; }
+
+        /// <summary>
+        /// Pusty konstruktor klasy Process
+        /// </summary>
         public Process()
         {
         }
 
-        public Process(long cpuBurstTime, long waitingTime = 0)
+        /// <summary>
+        /// Konstruktor ustawiajacy podstawowe wartosci cech procesu
+        /// </summary>
+        /// <param name="cpuBurstTime">Czas jaki procesor musi poswiecic na wykonanie zadania</param>
+        /// <param name="waitingTime">Czas jaki proces spedza na oczekiwaniu na przydzial czasu procesora</param>
+        /// <param name="turnaroundTime">Calkowity czas przetwarzania procesu</param>
+        public Process(double cpuBurstTime, double waitingTime = 0, double turnaroundTime = 0)
         {
             CpuBurstTime = cpuBurstTime;
             WaitingTime = waitingTime;
-            TurnaroundTime = waitingTime;
+            TurnaroundTime = turnaroundTime;
         }
 
-        public long CpuBurstTime { get => cpuBurstTime; set => cpuBurstTime = value; }
-        public long TurnaroundTime { get => turnAroundTime; set => turnAroundTime = value; }
-        public long WaitingTime { get => waitingTime; set => waitingTime = value; }
+        
 
-
-        public int CompareTo(long objectToCompareWith)
-        {
-            if (this.cpuBurstTime < objectToCompareWith) return 1;
-            else return 0;
-        }
     }
 }

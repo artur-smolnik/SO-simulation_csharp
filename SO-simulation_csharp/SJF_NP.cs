@@ -21,7 +21,7 @@ namespace SO_simulation_csharp
         /// <summary>
         /// Zmienna wykorzystywana do mierzenia taktow zegarowych
         /// </summary>
-        private long cyclesNumber;
+        private double cyclesNumber;
 
         /// <summary>
         /// Konstruktor wczytujacy ciagi procesow z zadanej sciezki, przechowywane w odpowiednim formacie XML
@@ -80,11 +80,11 @@ namespace SO_simulation_csharp
         /// Funkcja zwraca liste srednich czasow oczekiwania dla poszczegolnych ciagow procesow
         /// </summary>
         /// <returns>Lista srednich czasow oczekiwania</returns>
-        public List<long> AverageWaitingTimeForEachSequence()
+        public List<double> AverageWaitingTimeForEachSequence()
         {
 
-            long waitingTime = 0;
-            List<long> listOfWaitingTimes = new List<long>();
+            double waitingTime = 0;
+            List<double> listOfWaitingTimes = new List<double>();
 
             foreach (List<Process> list in LoadedProcesses)
             {
@@ -102,10 +102,10 @@ namespace SO_simulation_csharp
         /// Funkcja zwraca liste srednich czasow przetwarzania dla poszczegolnych ciagow procesow
         /// </summary>
         /// <returns>Lista srednich czasow oczekiwania</returns>
-        public List<long> AverageTurnaroundTimeForEachSequence()
+        public List<double> AverageTurnaroundTimeForEachSequence()
         {
-            List<long> listOfTurnaroundTime = new List<long>();
-            long turnaroundTime = 0;
+            List<double> listOfTurnaroundTime = new List<double>();
+            double turnaroundTime = 0;
             foreach (List<Process> list in LoadedProcesses)
             {
                 foreach (Process process in list)
@@ -124,8 +124,8 @@ namespace SO_simulation_csharp
         /// </summary>
         public void PrintSJF_NPResults()
         {
-            long averageWaitingTime = 0;
-            long averageTurnaroundTime = 0;
+            double averageWaitingTime = 0;
+            double averageTurnaroundTime = 0;
             for (int i = 0; i < processUtilities.AmountOfProcessesLists; i++)
             {
                 averageWaitingTime += AverageWaitingTimeForEachSequence().ElementAt(i);

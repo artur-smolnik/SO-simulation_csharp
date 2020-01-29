@@ -10,21 +10,17 @@ namespace SO_simulation_csharp
     class ProcessUtilities
     {
 
-        private int amountOfProcessesPerList;
-        private int amountOfProcessesLists;
-        List<List<Process>> listOfListsOfProcesses;
+        private double amountOfProcessesPerList;
+        private double amountOfProcessesLists;
 
-        public int AmountOfProcessesPerList { get => amountOfProcessesPerList; set => amountOfProcessesPerList = value; }
-        public int AmountOfProcessesLists { get => amountOfProcessesLists; set => amountOfProcessesLists = value; }
-        public List<List<Process>> GetListOfListsOfProcesses() { return listOfListsOfProcesses; }
-
+        public double AmountOfProcessesPerList { get => amountOfProcessesPerList; set => amountOfProcessesPerList = value; }
+        public double AmountOfProcessesLists { get => amountOfProcessesLists; set => amountOfProcessesLists = value; }
 
         public ProcessUtilities(string pathToDirectoryWithXMLFiles)
         {
             AmountOfProcessesPerList = 0;
             AmountOfProcessesLists = 0;
             SerializeManyListsOfProcessesAtOnce(2, 10, 10, 100, @"C:\Users\artur\Desktop\so sim\");
-            listOfListsOfProcesses = LoadManyListOfProcessesFromSerializedXMLs();
         }
 
         public List<Process> CreateListOfProcesses(int processesAmount, int cpuBurstMinDuration, int cpuBurstMaxDuration)
@@ -33,7 +29,7 @@ namespace SO_simulation_csharp
             Random rnd = new Random();
             for (int i = 0; i < processesAmount; i++)
             {
-                listOfProcesses.Add(new Process(rnd.Next(cpuBurstMinDuration, cpuBurstMaxDuration), 0));
+                listOfProcesses.Add(new Process(rnd.Next(cpuBurstMinDuration, cpuBurstMaxDuration), 0, 0));
                 for (int y = 0; y < 1000000; y++) ; //delay for rng
             }
             return listOfProcesses;
